@@ -1,12 +1,34 @@
-# step-race-game
+# STEP RACE GAME
+---
 
-This is a mini game that implement snake and ladders
-mechanism where your player roll the dice to step forward
-until finish.
+This is a mini game that implement snake and ladders mechanism where your player roll the dice to step forward until finish.
 
-The only difference is that the layout of this game using
-horizontal plane, traps and some powerups rather than using
-snakes and ladder for random events.
+The only difference is that the layout of this game using horizontal plane, traps and some powerups rather than using snakes and ladder for random events.
 
-By : 
+The reason why we use Java
+
+- It's Object Oriented-based
+- Easy to Learn for Compiled Resources
+- Of Course, for our end-semester's project ✨
+
+## Author(s)
+
+- [Muh. Sofyan Daud Pujas](https://www.instagram.com/sofyan.pujas/) - H071211045
+- [Chindy Febryan Erwana Putri](https://www.instagram.com/c.h.i.n.d.y/) - H071211038
+
+
+## Misc
+
+This game implemented Java FX libraries which gives us a lot of UI nodes option to use.
+Engine using thread with Java FX implemented methods to override the limitation of non-Java FX
+libraries usage (in this case : Thread objects).
+
+- Special Thanks to our adjunct professors (Mr. Max & Ms. Cecillia) to spare their limited time and sweat for giving this invaluable subject (Java Object Oriented-Programming).
+
+
+   [Sofyan]: <https://www.instagram.com/sofyan.pujas/d>
+   [Chindy]: <https://www.instagram.com/c.h.i.n.d.y/>
+   
+   
+[![N|Solid](https://www.oracle.com/a/tech/img/cb88-java-logo-001.jpg)](https://nodesource.com/products/nsolid)
 
