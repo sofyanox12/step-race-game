@@ -8,5 +8,5 @@ The only difference is that the layout of this game using
 horizontal plane, traps and some powerups rather than using
 snakes and ladder for random events.
 
-By : 
+By : FILOSOFYAN
 
