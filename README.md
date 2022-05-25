@@ -1,4 +1,4 @@
-# step-race-game
+# STEP RACE GAME
 
 This is a mini game that implement snake and ladders
 mechanism where your player roll the dice to step forward
