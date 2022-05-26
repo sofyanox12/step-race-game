@@ -2,7 +2,6 @@ package com.sisfo;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -24,13 +23,6 @@ public class StepRace extends Application {
 
         root.setStyle("-fx-background-color: #000000;");
         stage.setTitle("Step Race");
-
-        Button testButton = new Button("Test");
-        root.getChildren().add(testButton);
-        //root.setStyle("-fx-background-color: #000000;");
-
-        //window.startGameThread(); // Jalankan Thread
-
 
         Scene scene = new Scene(root, window.panelWidth, window.panelHeigth);
 

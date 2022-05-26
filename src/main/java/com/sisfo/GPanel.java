@@ -1,5 +1,7 @@
 package com.sisfo;
 
+import com.tile.TileCollection;
+
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -17,21 +19,28 @@ public class GPanel extends Canvas {
 
     /* ##--- Konfigurasi Ukuran Engine ---## */
 
-    final int tileSize = 16; // 16x16 Ukuran Tile - sesuaikan
-    final int charScale = 3;
+    public final int tileSize = 16; // 16x16 Ukuran Tile - sesuaikan
+    public final int charScale = 3;
 
-    final int FPS = 60;
+    public final int FPS = 60;
 
-    final int spriteSize = tileSize * charScale; // 16x3 = 48 Ukuran pixel
+    public final int spriteSize = tileSize * charScale; // 16x3 = 48 Ukuran pixel
 
-    final int maxPanelCol = 16; // 16 tile melebar kekanan (horizontal)
-    final int maxPanelRow = 12; // 12 tile melebar kebawah (vertikal)
+    public final int maxPanelCol = 16; // 16 tile melebar kekanan (horizontal)
+    public final int maxPanelRow = 12; // 12 tile melebar kebawah (vertikal)
 
-    final int panelWidth = spriteSize * maxPanelCol; // 48x16 = 768 Ukuran pixel
-    final int panelHeigth = spriteSize * maxPanelRow; // 48x12 = 576 Ukuran pixel
+    public final int panelWidth = spriteSize * maxPanelCol; // 48x16 = 768 Ukuran pixel
+    public final int panelHeigth = spriteSize * maxPanelRow; // 48x12 = 576 Ukuran pixel
 
     /* ##-------------------------------## */
     
+    // Posisi mula-mula player
+    int playerPosX = 100;
+    int playerPosY = 100;
+    int playerSpeed = 4;
+
+    private TileCollection map = new TileCollection(this);
+
     private GraphicsContext graphic = getGraphicsContext2D();
     
     private final long FIRST_SECOND = System.currentTimeMillis();
@@ -43,6 +52,7 @@ public class GPanel extends Canvas {
         this.canvas = new Canvas();
         this.setHeight(panelHeigth);
         this.setWidth(panelWidth);
+        this.setFocusTraversable(true);
 
         Thread thread = new Thread(() -> { // = public void run() - ini sebagai Engine Game :
 
@@ -63,8 +73,6 @@ public class GPanel extends Canvas {
             
             while (true) { // Isi Method Background Disini :
                 
-                //System.out.printf("Game Berjalan... [%s s]\n", getSecond());
-                
                 // Merender sesuai FPS agar tidak memakan CPU:
                 currentTime = System.nanoTime();
                 delta += (currentTime - lastTime) / drawInterval;
@@ -74,8 +82,6 @@ public class GPanel extends Canvas {
                 if (delta > 0) {
                     drawCount++;
                     delta--;
-                    
-                
                     Platform.runLater(updater);
                 }
 
@@ -105,16 +111,12 @@ public class GPanel extends Canvas {
 
         g.setFill(Color.WHITE);
         g.fillRect(100, 100, spriteSize, spriteSize);
+       // map.draw(g); // Lagi Dalam Perbaikan
+
+        //player.draw(g)
 
     }
 
-    // Posisi default player
-    int playerPosX = 80;
-    int playerPosY = 300;
-
-    
-    
     
 
-    
 }
