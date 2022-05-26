@@ -19,8 +19,8 @@ public class GPanel extends Canvas {
 
     /* ##--- Konfigurasi Ukuran Engine ---## */
 
-    public final int tileSize = 16; // 16x16 Ukuran Tile - sesuaikan
-    public final int charScale = 3;
+    public final int tileSize = 48; // 16x16 Ukuran Tile - sesuaikan
+    public final int charScale = 1;
 
     public final int FPS = 60;
 
@@ -111,10 +111,11 @@ public class GPanel extends Canvas {
 
         g.setFill(Color.WHITE);
         g.fillRect(100, 100, spriteSize, spriteSize);
-       // map.draw(g); // Lagi Dalam Perbaikan
-
+        map.draw(g); // Lagi Dalam Perbaikan
+        
         //player.draw(g)
-
+        g.restore();
+        
     }
 
     
