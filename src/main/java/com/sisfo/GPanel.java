@@ -85,7 +85,7 @@ public class GPanel extends Canvas {
                     Platform.runLater(updater);
                 }
 
-                if (timer >= 1000000000) {
+                if (timer >= 1000000000) { // Output ke terminal
                     System.out.printf("\n[FPS:%s] waktu = %s d", drawCount, getSecond());
                     drawCount = 0;
                     timer = 0;

@@ -9,53 +9,64 @@ import com.sisfo.GPanel;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
+/*
+    Peran Kelas TileCollection di sini adalah untuk menyediakan
+    berbagai informasi tentang bahan-bahan dari path yang disediakan
+    untuk dinilai sebagai resources agar dapat dibaca oleh
+    program.
+*/
 
 public class TileCollection {
 
     GPanel gp;
     Tile[] tile;
     int[][] mapTileNum;
-    int tileAssets = 10;
+    int tileAssets = 12; // Banyaknya jenis tile yang akan dipakai = 12
 
     public TileCollection(GPanel gp) {
         this.gp = gp;
-        this.tile = new Tile[tileAssets]; // Banyaknya jenis tile yang akan dipakai = 10
+        this.tile = new Tile[tileAssets]; 
 
         mapTileNum = new int[gp.maxPanelCol][gp.maxPanelRow];
         getTileView();
-        loadMap();
+        loadMap("map01.txt");
     }
 
-    public void getTileView()  {
+    public void getTileView() {
 
         for (int i = 0; i < tile.length; i++) {
             tile[i] = new Tile();
         }
 
-        tile[0].image = new Image("file:src/main/resources/com/tiles/ground1_0.png");
-        tile[1].image = new Image("file:src/main/resources/com/tiles/sky1_0.png");
-        tile[2].image = new Image("file:src/main/resources/com/tiles/sky1_1.png");
-        tile[3].image = new Image("file:src/main/resources/com/tiles/sky1_2.png");
-        tile[4].image = new Image("file:src/main/resources/com/tiles/sky1_3.png");
-        tile[5].image = new Image("file:src/main/resources/com/tiles/sky2_0.png");
-        tile[6].image = new Image("file:src/main/resources/com/tiles/sky2_1.png");
-        tile[7].image = new Image("file:src/main/resources/com/tiles/sky2_2.png");
-        tile[8].image = new Image("file:src/main/resources/com/tiles/sky2_3.png");
-        tile[8].image = new Image("file:src/main/resources/com/tiles/sky2_4.png");
-        tile[8].image = new Image("file:src/main/resources/com/tiles/sky3_0.png");
+        /*
+         * Berikut adalah tile yang di set menggunakan angka nya
+         * untuk bisa ditulis dalam bentuk .txt
+         */
 
+        tile[0].image = new Image("file:src/main/resources/com/tiles/ground1_0.png"); // 0 
+        tile[1].image = new Image("file:src/main/resources/com/tiles/ground1_1.png"); // 1
+        tile[2].image = new Image("file:src/main/resources/com/tiles/sky1_0.png"); // 2
+        tile[3].image = new Image("file:src/main/resources/com/tiles/sky1_1.png"); // 3
+        tile[4].image = new Image("file:src/main/resources/com/tiles/sky1_2.png"); // 4
+        tile[5].image = new Image("file:src/main/resources/com/tiles/sky1_3.png"); // 5
+        tile[6].image = new Image("file:src/main/resources/com/tiles/sky2_0.png"); // 6
+        tile[7].image = new Image("file:src/main/resources/com/tiles/sky2_1.png"); // 7
+        tile[8].image = new Image("file:src/main/resources/com/tiles/sky2_2.png"); // 8
+        tile[9].image = new Image("file:src/main/resources/com/tiles/sky2_3.png"); // 9
+        tile[10].image = new Image("file:src/main/resources/com/tiles/sky2_4.png"); // 10
+        tile[11].image = new Image("file:src/main/resources/com/tiles/sky3_0.png"); // 11
 
     }
 
-    public void loadMap() {
+    public void loadMap(String map) {
         try {
-            InputStream mapStream = getClass().getResourceAsStream("map01.txt");
+            InputStream mapStream = getClass().getResourceAsStream(map);
             BufferedReader read = new BufferedReader(new InputStreamReader(mapStream));
-            
+
             int col = 0;
             int row = 0;
 
-            while(col < gp.maxPanelCol && row < gp.maxPanelRow) {
+            while (col < gp.maxPanelCol && row < gp.maxPanelRow) {
                 String line = read.readLine();
 
                 while (col < gp.maxPanelCol) {
@@ -65,19 +76,19 @@ public class TileCollection {
                     col++;
                 }
                 if (col == gp.maxPanelCol) {
-                    col=0;
+                    col = 0;
                     row++;
                 }
             }
             read.close();
 
         } catch (Exception e) {
-            //TODO: handle exception
+            e.printStackTrace();
         }
     }
 
-    public void draw(GraphicsContext t) {
-        //t.drawImage(tile[0].image, 0, 0, gp.spriteSize, gp.spriteSize);
+    public void draw(GraphicsContext t) { // Menentukan Posisi setiap penaruhan tilenya
+
         int col = 0;
         int row = 0;
         int x = 0;
