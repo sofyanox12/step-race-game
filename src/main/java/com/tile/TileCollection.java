@@ -1,13 +1,13 @@
 package com.tile;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
 import com.sisfo.GPanel;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 /*
     Peran Kelas TileCollection di sini adalah untuk menyediakan
@@ -21,7 +21,7 @@ public class TileCollection {
     GPanel gp;
     Tile[] tile;
     int[][] mapTileNum;
-    int tileAssets = 12; // Banyaknya jenis tile yang akan dipakai = 12
+    int tileAssets = 15; // Banyaknya jenis tile yang akan dipakai = 12
 
     public TileCollection(GPanel gp) {
         this.gp = gp;
@@ -55,10 +55,12 @@ public class TileCollection {
         tile[9].image = new Image("file:src/main/resources/com/tiles/sky2_3.png"); // 9
         tile[10].image = new Image("file:src/main/resources/com/tiles/sky2_4.png"); // 10
         tile[11].image = new Image("file:src/main/resources/com/tiles/sky3_0.png"); // 11
+        tile[12].image = new Image("file:src/main/resources/com/tiles/ground1_2.png"); // 12
+        tile[13].image = new Image("file:src/main/resources/com/tiles/ground1_3.png"); // 13
 
     }
 
-    public void loadMap(String map) {
+    public void loadMap(String map) { // Method untuk meng-load file .txt mapnya
         try {
             InputStream mapStream = getClass().getResourceAsStream(map);
             BufferedReader read = new BufferedReader(new InputStreamReader(mapStream));

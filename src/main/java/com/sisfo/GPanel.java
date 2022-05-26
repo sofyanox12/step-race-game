@@ -1,11 +1,11 @@
 package com.sisfo;
 
+import com.entity.Player;
 import com.tile.TileCollection;
 
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 
 /*
     Peran Kelas GPanel disini adalah sebagai Engine Game
@@ -17,27 +17,18 @@ public class GPanel extends Canvas {
 
     final Canvas canvas;
 
-    /* ##--- Konfigurasi Ukuran Engine ---## */
-
-    public final int tileSize = 48; // 16x16 Ukuran Tile - sesuaikan
+    public final int tileSize = 48; // 48x48 Ukuran Tile - sesuaikan
     public final int charScale = 1;
 
     public final int FPS = 60;
 
-    public final int spriteSize = tileSize * charScale; // 16x3 = 48 Ukuran pixel
+    public final int spriteSize = tileSize * charScale; // 48x1 = 48x48 Ukuran pixel
 
     public final int maxPanelCol = 16; // 16 tile melebar kekanan (horizontal)
     public final int maxPanelRow = 12; // 12 tile melebar kebawah (vertikal)
 
     public final int panelWidth = spriteSize * maxPanelCol; // 48x16 = 768 Ukuran pixel
     public final int panelHeigth = spriteSize * maxPanelRow; // 48x12 = 576 Ukuran pixel
-
-    /* ##-------------------------------## */
-    
-    // Posisi mula-mula player
-    int playerPosX = 100;
-    int playerPosY = 100;
-    int playerSpeed = 4;
 
     private TileCollection map = new TileCollection(this);
 
@@ -46,7 +37,10 @@ public class GPanel extends Canvas {
     private final long FIRST_SECOND = System.currentTimeMillis();
    
     public Thread gameRunning;
- 
+    
+    private GameEvent dice = new GameEvent();
+    private Player player = new Player(this, dice);
+
     public GPanel() {
 
         this.canvas = new Canvas();
@@ -63,7 +57,7 @@ public class GPanel extends Canvas {
             long lastTime = System.nanoTime();
             long currentTime;
 
-            Runnable updater = () -> { // Isi Method untuk mengupdate window disini :
+            Runnable updater = () -> { // Thread yang mampu memberikan efek ke GUI javaFX :
 
                 update();
 
@@ -71,7 +65,7 @@ public class GPanel extends Canvas {
                 
             };
             
-            while (true) { // Isi Method Background Disini :
+            while (true) { // Thread yang hanya dijalankan di background :
                 
                 // Merender sesuai FPS agar tidak memakan CPU:
                 currentTime = System.nanoTime();
@@ -89,8 +83,7 @@ public class GPanel extends Canvas {
                     System.out.printf("\n[FPS:%s] waktu = %s d", drawCount, getSecond());
                     drawCount = 0;
                     timer = 0;
-                }
-                
+                }    
             }
         });
         
@@ -103,21 +96,21 @@ public class GPanel extends Canvas {
         return (int)((now - FIRST_SECOND) / 1000);
     }
 
-    public void update() {
+    public void update() { // Angka dadu berubah & Kejadian-kejadian di stack disini:
+  
+        player.update();
 
     }
 
-    public void render(GraphicsContext g) {
+    public void render(GraphicsContext render) { // Pemanggilan apa saja yang akan di gambar disini :
+        
+        map.draw(render); // Meng-render map
+        player.drawP1(render); // Meng-render pemain
+        player.drawP2(render);
+        render.restore(); // Mereset gambar (agar tidak ngelag)
 
-        g.setFill(Color.WHITE);
-        g.fillRect(100, 100, spriteSize, spriteSize);
-        map.draw(g); // Lagi Dalam Perbaikan
-        
-        //player.draw(g)
-        g.restore();
-        
+
+
     }
-
-    
 
 }
