@@ -16,8 +16,8 @@ public class StepRace extends Application {
     public void start(Stage stage) {
         
         Image icon = new Image("file:src/main/resources/com/sisfo/icon.png");
-
-        GPanel window = new GPanel();
+        
+        GPanel window = new GPanel(); // Mulai jalankan Game
         
         Pane root = new Pane(window);
 

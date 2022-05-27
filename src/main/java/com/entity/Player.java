@@ -5,194 +5,275 @@ import com.sisfo.GameEvent;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 
 public class Player {
 
     public int PLAYER1_X, PLAYER1_Y, PLAYER2_X, PLAYER2_Y;
 
+    public final int mapView1_X;
+
     public long start = System.currentTimeMillis();
-    public int spriteCounter = 0;
-    public int spriteNum = 1;
-    public int playerID = 1;
 
-    private Image[] walk = new Image[6];
-    private Image[] idle = new Image[4];
+    public int spriteCounterP1 = 0;
+    public int spriteNumP1 = 1;
 
-    private Boolean idling = false;
+    public int spriteCounterP2 = 0;
+    public int spriteNumP2 = 1;
 
-    GameEvent dice;
-    GPanel opt;
+    public int playerID;
 
-    public Player(GPanel opt, GameEvent dice) {
+    private Image[] walkP1 = new Image[6];
+    private Image[] idleP1 = new Image[4];
+
+    private Image[] walkP2 = new Image[6];
+    private Image[] idleP2 = new Image[4];
+
+    private Boolean idlingP1 = false;
+    private Boolean idlingP2 = false;
+
+    private GameEvent event;
+    private GPanel opt;
+
+    public Player(GPanel opt, GameEvent event) {
         this.opt = opt;
-        this.dice = dice;
-        getPlayer(1); // set player (nanti manipulasikan lagi player1 dan player2 sendiri-sendiri) ############################################
-        setPlayer1Pos();
-        setPlayer2Pos();
-        dice.diceRoll();
+        this.event = event;
+
+        mapView1_X = (opt.panelWidth - opt.spriteSize) / 2;
+
+        getPlayer(1, 1); // p1
+        getPlayer(4, 2); // p2
+        setPlayerStartingPos();
+        event.diceRoll();
     }
 
-    public void setPlayer1Pos() {
-        PLAYER1_X = opt.panelWidth - (15 * opt.tileSize);
+    public void setPlayerStartingPos() {
+        // Posisi awal Player 1
+        PLAYER1_X = 1 * opt.tileSize;
         PLAYER1_Y = opt.panelHeigth - (5 * opt.tileSize);
 
+        // Posisi awal Player 2
+        PLAYER2_X = 1 * opt.tileSize;
+        PLAYER2_Y = opt.panelHeigth - (5 * opt.tileSize);
+
     }
 
-    public void setPlayer2Pos() {
-        PLAYER2_X = opt.panelWidth - (15 * opt.tileSize);
-        PLAYER2_Y = opt.panelHeigth - (5 * opt.tileSize);
+    public int getPlayerID() {
+        return playerID;
     }
 
     public void update() {
 
         double limit = timePassed();
 
-        if (!dice.back1 || !dice.back2 || !dice.back3 || !dice.back4 || !dice.back5 || !dice.back6) {
+        if (!event.back1 || !event.back2 || !event.back3 || !event.back4 || !event.back5 || !event.back6) {
 
-            if (dice.step1 == true) {
+            if (event.step1 == true) {
 
-                PLAYER1_X += playerID < 1 ? 0 : 1;
-                PLAYER2_X += playerID > 1 ? 0 : 2;
+                PLAYER1_X += playerID == 1 ? 0 : 1;
+                PLAYER2_X += playerID == 2 ? 0 : 2;
 
-                dice.step1 = (limit == 2) ? false : true;
+                event.step1 = (limit == 1) ? false : true;
 
-            } else if (dice.step2 == true) {
+            } else if (event.step2 == true) {
 
-                PLAYER1_X += playerID < 1 ? 0 : 2;
-                PLAYER2_X += playerID > 1 ? 0 : 1;
+                PLAYER1_X += playerID == 1 ? 0 : 2;
+                PLAYER2_X += playerID == 2 ? 0 : 1;
 
-                dice.step2 = (limit == 2) ? false : true;
+                event.step2 = (limit == 2) ? false : true;
 
-            } else if (dice.step3 == true) {
+            } else if (event.step3 == true) {
 
-                PLAYER1_X += playerID < 1 ? 0 : 2;
-                PLAYER2_X += playerID > 1 ? 0 : 1;
+                PLAYER1_X += playerID == 1 ? 0 : 2;
+                PLAYER2_X += playerID == 2 ? 0 : 1;
 
-                dice.step3 = (limit == 3) ? false : true;
+                event.step3 = (limit == 3) ? false : true;
 
-            } else if (dice.step4 == true) {
+            } else if (event.step4 == true) {
 
-                PLAYER1_X += playerID < 1 ? 0 : 1;
-                PLAYER2_X += playerID > 1 ? 0 : 2;
+                PLAYER1_X += playerID == 1 ? 0 : 1;
+                PLAYER2_X += playerID == 2 ? 0 : 2;
 
-                dice.step4 = (limit == 3) ? false : true;
+                event.step4 = (limit == 3) ? false : true;
 
-            } else if (dice.step5 == true) {
+            } else if (event.step5 == true) {
 
-                PLAYER1_X += playerID < 1 ? 0 : 2;
-                PLAYER2_X += playerID > 1 ? 0 : 1;
+                PLAYER1_X += playerID == 1 ? 0 : 2;
+                PLAYER2_X += playerID == 2 ? 0 : 1;
 
-                dice.step5 = (limit == 4) ? false : true;
+                event.step5 = (limit == 4) ? false : true;
 
-            } else if (dice.step6 == true) {
+            } else if (event.step6 == true) {
 
-                PLAYER1_X += playerID < 1 ? 0 : 2;
-                PLAYER2_X += playerID > 1 ? 0 : 1;
+                PLAYER1_X += playerID == 1 ? 0 : 2;
+                PLAYER2_X += playerID == 2 ? 0 : 1;
 
-                dice.step6 = (limit == 4) ? false : true;
+                event.step6 = (limit == 4) ? false : true;
 
             } else {
-                idling = true;
+                idlingP1 = true;
+                idlingP2 = true;
             }
 
-            spriteCounter++;
+            spriteCounterP1++;
+            spriteCounterP2++;
 
-            if (spriteCounter > 12) { // Delay per animasi Karakter
+            if (spriteCounterP1 > 12) { // Delay per animasi Karakter
 
-                if (!idling) {
-                    if (spriteNum < walk.length) {
-                        spriteNum++;
-                    } else if (spriteNum == walk.length) {
-                        spriteNum = 1;
+                if (!idlingP1) {
+                    if (spriteNumP1 < walkP1.length) {
+                        spriteNumP1++;
+                    } else if (spriteNumP1 == walkP1.length) {
+                        spriteNumP1 = 1;
                     }
 
-                } else if (idling) {
-                    if (spriteNum < idle.length) {
-                        spriteNum++;
-                    } else if (spriteNum == idle.length) {
-                        spriteNum = 1;
+                } else if (idlingP1) {
+                    if (spriteNumP1 < idleP1.length) {
+                        spriteNumP1++;
+                    } else if (spriteNumP1 == idleP1.length) {
+                        spriteNumP1 = 1;
                     }
                 }
-                spriteCounter = 0;
+                spriteCounterP1 = 0;
             }
-            System.out.println(spriteCounter + " " + spriteNum);
+
+            if (spriteCounterP2 > 12) { // Delay per animasi Karakter
+
+                if (!idlingP2) {
+                    if (spriteNumP2 < walkP2.length) {
+                        spriteNumP2++;
+
+                    } else if (spriteNumP2 == walkP2.length) {
+                        spriteNumP2 = 1;
+                    }
+
+                } else if (idlingP2) {
+                    if (spriteNumP2 < idleP2.length) {
+                        spriteNumP2++;
+
+                    } else if (spriteNumP2 == idleP2.length) {
+                        spriteNumP2 = 1;
+                          
+                    }
+                }
+                spriteCounterP2 = 0;
+            }
+            System.out.println("[P1] : " + spriteCounterP1 + " " + spriteNumP1);
+            System.out.println("[P2] : " + spriteCounterP2 + " " + spriteNumP2);
+
         }
 
     }
 
-    public void getPlayer(int x) {
+    public void getPlayer(int x, int playerID) {
 
-        if (x == 1) { // Character : Old Man
-            for (int i = 0, t = 0; i < walk.length; i++, t++) {
-                this.walk[i] = new Image("file:src/main/resources/com/sprites/old_walk" + i + ".png");
-                if (t < idle.length)
-                    this.idle[t] = new Image("file:src/main/resources/com/sprites/old_idle" + t + ".png");
+        if (playerID == 1) { // Karakter untuk Player 1
+
+            if (x == 1) { // Character : Old Man
+                for (int i = 0, t = 0; i < walkP1.length; i++, t++) {
+                    this.walkP1[i] = new Image("file:src/main/resources/com/sprites/old_walk" + i + ".png");
+                    if (t < idleP1.length)
+                        this.idleP1[t] = new Image("file:src/main/resources/com/sprites/old_idle" + t + ".png");
+                }
+    
+            } else if (x == 2) { // Character : Girl
+                for (int i = 0, t = 0; i < walkP1.length; i++, t++) {
+                    this.walkP1[i] = new Image("file:src/main/resources/com/sprites/girl_walk" + i + ".png");
+                    if (t < idleP1.length)
+                        this.idleP1[t] = new Image("file:src/main/resources/com/sprites/girl_idle" + t + ".png");
+                }
+    
+            } else if (x == 3) { // Character : Man
+                for (int i = 0, t = 0; i < walkP1.length; i++, t++) {
+                    this.walkP1[i] = new Image("file:src/main/resources/com/sprites/man_walk" + i + ".png");
+                    if (t < idleP1.length)
+                        this.idleP1[t] = new Image("file:src/main/resources/com/sprites/mman_idle" + t + ".png");
+                }
+    
+            } else if (x == 4) {
+                for (int i = 0, t = 0; i < walkP1.length; i++, t++) { // Character : punk
+                    this.walkP1[i] = new Image("file:src/main/resources/com/sprites/punk_walk" + i + ".png");
+                    if (t < idleP1.length)
+                        this.idleP1[t] = new Image("file:src/main/resources/com/sprites/punk_idle" + t + ".png");
+                }
+    
             }
 
-        } else if (x == 2) { // Character : Girl
-            for (int i = 0, t = 0; i < walk.length; i++, t++) {
-                this.walk[i] = new Image("file:src/main/resources/com/sprites/girl_walk" + i + ".png");
-                if (t < idle.length)
-                    this.idle[t] = new Image("file:src/main/resources/com/sprites/old_idle" + t + ".png");
-            }
+        } else if (playerID == 2) { // Karakter untuk Player 2
 
-        } else if (x == 3) { // Character : Man
-            for (int i = 0, t = 0; i < walk.length; i++, t++) {
-                this.walk[i] = new Image("file:src/main/resources/com/sprites/man_walk" + i + ".png");
-                if (t < idle.length)
-                    this.idle[t] = new Image("file:src/main/resources/com/sprites/old_idle" + t + ".png");
+            if (x == 1) { // Character : Old Man
+                for (int i = 0, t = 0; i < walkP2.length; i++, t++) {
+                    this.walkP2[i] = new Image("file:src/main/resources/com/sprites/old_walk" + i + ".png");
+                    if (t < idleP2.length)
+                        this.idleP2[t] = new Image("file:src/main/resources/com/sprites/old_idle" + t + ".png");
+                }
+    
+            } else if (x == 2) { // Character : Girl
+                for (int i = 0, t = 0; i < walkP2.length; i++, t++) {
+                    this.walkP2[i] = new Image("file:src/main/resources/com/sprites/girl_walk" + i + ".png");
+                    if (t < idleP2.length)
+                        this.idleP2[t] = new Image("file:src/main/resources/com/sprites/girl_idle" + t + ".png");
+                }
+    
+            } else if (x == 3) { // Character : Man
+                for (int i = 0, t = 0; i < walkP2.length; i++, t++) {
+                    this.walkP2[i] = new Image("file:src/main/resources/com/sprites/man_walk" + i + ".png");
+                    if (t < idleP2.length)
+                        this.idleP2[t] = new Image("file:src/main/resources/com/sprites/mman_idle" + t + ".png");
+                }
+    
+            } else if (x == 4) {
+                for (int i = 0, t = 0; i < walkP2.length; i++, t++) { // Character : punk
+                    this.walkP2[i] = new Image("file:src/main/resources/com/sprites/punk_walk" + i + ".png");
+                    if (t < idleP2.length)
+                        this.idleP2[t] = new Image("file:src/main/resources/com/sprites/punk_idle" + t + ".png");
+                }
+    
+            } else {
+                System.out.println("Invalid Player ID!");
             }
-
-        } else if (x == 4) {
-            for (int i = 0, t = 0; i < walk.length; i++, t++) { // Character : punk
-                this.walk[i] = new Image("file:src/main/resources/com/sprites/punk_walk" + i + ".png");
-                if (t < idle.length)
-                    this.idle[t] = new Image("file:src/main/resources/com/sprites/old_idle" + t + ".png");
-            }
-
         }
+        
     }
 
     public void drawP1(GraphicsContext render) {
 
         Image player1 = null;
 
-        if (!idling) {
+        if (!idlingP1) {
 
-            if (spriteNum == 1) {
-                player1 = walk[0];
+            if (spriteNumP1 == 1) {
+                player1 = walkP1[0];
 
-            } else if (spriteNum == 2) {
-                player1 = walk[1];
+            } else if (spriteNumP1 == 2) {
+                player1 = walkP1[1];
 
-            } else if (spriteNum == 3) {
-                player1 = walk[2];
+            } else if (spriteNumP1 == 3) {
+                player1 = walkP1[2];
 
-            } else if (spriteNum == 4) {
-                player1 = walk[3];
+            } else if (spriteNumP1 == 4) {
+                player1 = walkP1[3];
 
-            } else if (spriteNum == 5) {
-                player1 = walk[4];
+            } else if (spriteNumP1 == 5) {
+                player1 = walkP1[4];
 
-            } else if (spriteNum == 6) {
-                player1 = walk[5];
+            } else if (spriteNumP1 == 6) {
+                player1 = walkP1[5];
 
             }
 
-        } else if (idling) {
+        } else if (idlingP1) {
 
-            if (spriteNum == 1) {
-                player1 = idle[0];
+            if (spriteNumP1 == 1) {
+                player1 = idleP1[0];
 
-            } else if (spriteNum == 2) {
-                player1 = idle[1];
+            } else if (spriteNumP1 == 2) {
+                player1 = idleP1[1];
 
-            } else if (spriteNum == 3) {
-                player1 = idle[2];
+            } else if (spriteNumP1 == 3) {
+                player1 = idleP1[2];
 
-            } else if (spriteNum == 4) {
-                player1 = idle[3];
+            } else if (spriteNumP1 == 4) {
+                player1 = idleP1[3];
 
             }
         }
@@ -204,41 +285,41 @@ public class Player {
 
         Image player2 = null;
 
-        if (!idling) {
+        if (!idlingP2) {
 
-            if (spriteNum == 1) {
-                player2 = walk[0];
+            if (spriteNumP1 == 1) {
+                player2 = walkP2[0];
 
-            } else if (spriteNum == 2) {
-                player2 = walk[1];
+            } else if (spriteNumP1 == 2) {
+                player2 = walkP2[1];
 
-            } else if (spriteNum == 3) {
-                player2 = walk[2];
+            } else if (spriteNumP1 == 3) {
+                player2 = walkP2[2];
 
-            } else if (spriteNum == 4) {
-                player2 = walk[3];
+            } else if (spriteNumP1 == 4) {
+                player2 = walkP2[3];
 
-            } else if (spriteNum == 5) {
-                player2 = walk[4];
+            } else if (spriteNumP1 == 5) {
+                player2 = walkP2[4];
 
-            } else if (spriteNum == 6) {
-                player2 = walk[5];
+            } else if (spriteNumP1 == 6) {
+                player2 = walkP2[5];
 
             }
 
-        } else if (idling) {
+        } else if (idlingP2) {
 
-            if (spriteNum == 1) {
-                player2 = idle[0];
+            if (spriteNumP1 == 1) {
+                player2 = idleP2[0];
 
-            } else if (spriteNum == 2) {
-                player2 = idle[1];
+            } else if (spriteNumP1 == 2) {
+                player2 = idleP2[1];
 
-            } else if (spriteNum == 3) {
-                player2 = idle[2];
+            } else if (spriteNumP1 == 3) {
+                player2 = idleP2[2];
 
-            } else if (spriteNum == 4) {
-                player2 = idle[3];
+            } else if (spriteNumP1 == 4) {
+                player2 = idleP2[3];
 
             }
         }

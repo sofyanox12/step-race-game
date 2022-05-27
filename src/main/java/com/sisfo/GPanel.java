@@ -17,10 +17,9 @@ public class GPanel extends Canvas {
 
     final Canvas canvas;
 
+    // Layar
     public final int tileSize = 48; // 48x48 Ukuran Tile - sesuaikan
     public final int charScale = 1;
-
-    public final int FPS = 60;
 
     public final int spriteSize = tileSize * charScale; // 48x1 = 48x48 Ukuran pixel
 
@@ -30,17 +29,29 @@ public class GPanel extends Canvas {
     public final int panelWidth = spriteSize * maxPanelCol; // 48x16 = 768 Ukuran pixel
     public final int panelHeigth = spriteSize * maxPanelRow; // 48x12 = 576 Ukuran pixel
 
+    // FPS
+    public final int FPS = 60;
+
+    public Thread gameRunning;
+
+    // Pernyataan panggilan kelas lain
     private TileCollection map = new TileCollection(this);
 
     private GraphicsContext graphic = getGraphicsContext2D();
     
     private final long FIRST_SECOND = System.currentTimeMillis();
-   
-    public Thread gameRunning;
     
     private GameEvent dice = new GameEvent();
+
     private Player player = new Player(this, dice);
 
+    // Pengaturan Map
+    public final int maxWorldCol = 50;
+    public final int maxWorldRow = 12;
+    public final int worldWidth = spriteSize * maxPanelCol;
+    public final int worldHeigth = spriteSize * maxPanelRow;
+
+    // Rendering
     public GPanel() {
 
         this.canvas = new Canvas();

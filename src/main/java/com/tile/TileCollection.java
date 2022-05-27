@@ -27,7 +27,7 @@ public class TileCollection {
         this.gp = gp;
         this.tile = new Tile[tileAssets]; 
 
-        mapTileNum = new int[gp.maxPanelCol][gp.maxPanelRow];
+        mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
         getTileView();
         loadMap("map01.txt");
     }
@@ -68,16 +68,16 @@ public class TileCollection {
             int col = 0;
             int row = 0;
 
-            while (col < gp.maxPanelCol && row < gp.maxPanelRow) {
+            while (col < gp.maxWorldCol && row < gp.maxWorldRow) {
                 String line = read.readLine();
 
-                while (col < gp.maxPanelCol) {
+                while (col < gp.maxWorldCol) {
                     String number[] = line.split(" ");
                     int num = Integer.parseInt(number[col]);
                     mapTileNum[col][row] = num;
                     col++;
                 }
-                if (col == gp.maxPanelCol) {
+                if (col == gp.maxWorldCol) {
                     col = 0;
                     row++;
                 }
@@ -96,7 +96,7 @@ public class TileCollection {
         int x = 0;
         int y = 0;
 
-        while (col < gp.maxPanelCol && row < gp.maxPanelRow) {
+        while (col < gp.maxWorldCol && row < gp.maxWorldRow) {
 
             int tileNum = mapTileNum[col][row]; // Import satu persatu angka dari map01.txt
 
@@ -104,7 +104,7 @@ public class TileCollection {
             col++;
             x += gp.spriteSize;
 
-            if (col == gp.maxPanelCol) {
+            if (col == gp.maxWorldCol) {
                 col = 0;
                 x = 0;
                 row++;
