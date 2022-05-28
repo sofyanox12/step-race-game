@@ -1,6 +1,7 @@
 package com.sisfo;
 
 import com.sisfo.sprites.Player;
+import com.sisfo.tiles.Objects;
 import com.sisfo.tiles.TileCollection;
 
 import javafx.application.Platform;
@@ -44,6 +45,8 @@ public class GPanel extends Canvas {
     private GameEvent dice = new GameEvent();
 
     private Player player = new Player(this, dice);
+
+    private Objects object = new Objects();
 
     // Pengaturan Map
     public final int maxWorldCol = 50;
@@ -113,15 +116,29 @@ public class GPanel extends Canvas {
 
         player.updateP1();
         player.updateP2();
+        
 
     }
 
     public void render(GraphicsContext render) { // Pemanggilan apa saja yang akan di gambar disini :
 
         map.draw(render); // Meng-render map
+        
         player.drawP1(render); // Meng-render pemain
         player.drawP2(render);
+        
+        object.renderDice(render, player);
+        object.renderPosition(render);
+
+        if (player.computerPlay) {
+
+        }
+
+
+
+
         render.restore(); // Mereset gambar (agar tidak ngelag)
+        
 
     }
 

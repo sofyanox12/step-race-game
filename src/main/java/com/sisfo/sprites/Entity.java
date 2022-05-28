@@ -1,14 +1,15 @@
 package com.sisfo.sprites;
 
-import com.sisfo.GameEvent;
+import com.sisfo.GPanel;
 
-public class Entity extends GameEvent {
+public class Entity extends Object {
 
-
-    public int PLAYER1_X, PLAYER1_Y, PLAYER2_X, PLAYER2_Y;
-    public int PLAYER1_SCORE, PLAYER2_SCORE;
-    
-    public long start = System.currentTimeMillis();
+    public static int PLAYER1_X;
+    public static int PLAYER1_Y;
+    public static int PLAYER2_X;
+    public static int PLAYER2_Y;
+    public static int PLAYER1_SCORE;
+    public static int PLAYER2_SCORE;
 
     public int spriteCounterP1 = 0;
     public int spriteNumP1 = 1;
@@ -28,6 +29,7 @@ public class Entity extends GameEvent {
 
     }
 
+
     public void generateTraps() {
 
         trap = new int[10];
@@ -36,6 +38,16 @@ public class Entity extends GameEvent {
             trap[i] = (int) (Math.random() * 50 + 1);
         }
     }
-    
+
+    public void setPlayerStartingPos(GPanel window) {
+        // Posisi awal Player 1
+        PLAYER1_X = 12;
+        PLAYER1_Y = window.panelHeigth - (5 * window.tileSize);
+
+        // Posisi awal Player 2
+        PLAYER2_X = 12;
+        PLAYER2_Y = window.panelHeigth - (5 * window.tileSize);
+
+    }
 
 }
