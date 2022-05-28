@@ -1,4 +1,4 @@
-package com.tile;
+package com.sisfo.tiles;
 
 import com.sisfo.GPanel;
 
@@ -25,7 +25,7 @@ public class TileCollection {
 
     public TileCollection(GPanel gp) {
         this.gp = gp;
-        this.tile = new Tile[tileAssets]; 
+        this.tile = new Tile[tileAssets];
 
         mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
         getTileView();
@@ -42,21 +42,26 @@ public class TileCollection {
          * Berikut adalah tile yang di set menggunakan angka nya
          * untuk bisa ditulis dalam bentuk .txt
          */
+        try {
+            tile[0].image = new Image(getClass().getResourceAsStream("ground1_0.png")); // 0
+            tile[1].image = new Image(getClass().getResourceAsStream("ground1_1.png")); // 1
+            tile[2].image = new Image(getClass().getResourceAsStream("sky1_0.png")); // 2
+            tile[3].image = new Image(getClass().getResourceAsStream("sky1_1.png")); // 3
+            tile[4].image = new Image(getClass().getResourceAsStream("sky1_2.png")); // 4
+            tile[5].image = new Image(getClass().getResourceAsStream("sky1_3.png")); // 5
+            tile[6].image = new Image(getClass().getResourceAsStream("sky2_0.png")); // 6
+            tile[7].image = new Image(getClass().getResourceAsStream("sky2_1.png")); // 7
+            tile[8].image = new Image(getClass().getResourceAsStream("sky2_2.png")); // 8
+            tile[9].image = new Image(getClass().getResourceAsStream("sky2_3.png")); // 9
+            tile[10].image = new Image(getClass().getResourceAsStream("sky2_4.png")); // 10
+            tile[11].image = new Image(getClass().getResourceAsStream("sky3_0.png")); // 11
+            tile[12].image = new Image(getClass().getResourceAsStream("ground1_2.png")); // 12
+            tile[13].image = new Image(getClass().getResourceAsStream("ground1_3.png")); // 13
 
-        tile[0].image = new Image("file:src/main/resources/com/tiles/ground1_0.png"); // 0 
-        tile[1].image = new Image("file:src/main/resources/com/tiles/ground1_1.png"); // 1
-        tile[2].image = new Image("file:src/main/resources/com/tiles/sky1_0.png"); // 2
-        tile[3].image = new Image("file:src/main/resources/com/tiles/sky1_1.png"); // 3
-        tile[4].image = new Image("file:src/main/resources/com/tiles/sky1_2.png"); // 4
-        tile[5].image = new Image("file:src/main/resources/com/tiles/sky1_3.png"); // 5
-        tile[6].image = new Image("file:src/main/resources/com/tiles/sky2_0.png"); // 6
-        tile[7].image = new Image("file:src/main/resources/com/tiles/sky2_1.png"); // 7
-        tile[8].image = new Image("file:src/main/resources/com/tiles/sky2_2.png"); // 8
-        tile[9].image = new Image("file:src/main/resources/com/tiles/sky2_3.png"); // 9
-        tile[10].image = new Image("file:src/main/resources/com/tiles/sky2_4.png"); // 10
-        tile[11].image = new Image("file:src/main/resources/com/tiles/sky3_0.png"); // 11
-        tile[12].image = new Image("file:src/main/resources/com/tiles/ground1_2.png"); // 12
-        tile[13].image = new Image("file:src/main/resources/com/tiles/ground1_3.png"); // 13
+        } catch (Exception e) {
+            System.out.println("Ouch! ::> Ada file tile yang gagal di tinjau!");
+            System.exit(0);
+        }
 
     }
 

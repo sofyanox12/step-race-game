@@ -1,35 +1,36 @@
 package com.sisfo;
 
+
+
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
+import javafx.scene.image.WritableImage;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class StepRace extends Application {
+
+    public static Stage stage;
     
     public static void main(String[] game) {
+        
         launch(game);
     }
 
+    public void start(Stage stage) throws IOException {
 
-    public void start(Stage stage) {
+        Parent root = FXMLLoader.load(getClass().getResource("menubg1.fxml"));
         
-        Image icon = new Image("file:src/main/resources/com/sisfo/icon.png");
-        
-        GPanel window = new GPanel(); // Mulai jalankan Game
-        
-        Pane root = new Pane(window);
-
-        root.setStyle("-fx-background-color: #000000;");
-        stage.setTitle("Step Race");
-
-        Scene scene = new Scene(root, window.panelWidth, window.panelHeigth);
-
-        stage.getIcons().add(icon);
-        stage.setResizable(false);
-        stage.setScene(scene);
-        stage.show();
+        StepRace.stage = stage;
+        StepRace.stage.setTitle("Step Race");
+        StepRace.stage.getIcons().add(new Image(getClass().getResource("icon.png").toString()));
+        StepRace.stage.setResizable(false);
+        StepRace.stage.setScene(new Scene(root));
+        StepRace.stage.show();
     }
 
 

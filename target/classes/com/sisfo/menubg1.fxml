@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="768.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sisfo.Controller">
+   <children>
+      <ImageView fitHeight="576.0" fitWidth="768.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@menubg/main_menu.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="playButton" layoutX="333.0" layoutY="488.0" mnemonicParsing="false" onAction="#menuPlay" opacity="0.07" prefHeight="29.0" prefWidth="98.0" style="-fx-background-radius: 15;">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="aboutButton" layoutX="470.0" layoutY="486.0" mnemonicParsing="false" onAction="#menuAbout" opacity="0.0" prefHeight="34.0" prefWidth="101.0" style="-fx-background-radius: 10;">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="multiButton" layoutX="193.0" layoutY="486.0" mnemonicParsing="false" onAction="#menuMulti" opacity="0.0" prefHeight="34.0" prefWidth="101.0" style="-fx-background-radius: 10;">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="exitButton" layoutX="727.0" layoutY="489.0" mnemonicParsing="false" onAction="#menuExit" opacity="0.0" prefHeight="26.0" prefWidth="27.0" style="-fx-background-radius: 15;">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+   </children>
+</AnchorPane>

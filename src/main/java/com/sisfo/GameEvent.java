@@ -8,18 +8,24 @@ public class GameEvent {
     public Boolean back1 = false, back2 = false, back3 = false;
     public Boolean back4 = false, back5 = false, back6 = false;
 
+    public int moves;
+
+    public Boolean player1, player2;
+
     public String powerUP;
 
     public void diceRoll() {
 
-        int number = (int) (Math.random() * 6 + 1); // Menyetel angka dadu secara acak (1-6)
+        moves = (int) (Math.random() * 6 + 1); // Menyetel angka dadu secara acak (1-6)
 
-        step6 = (number == 6) ? true : false;
-        step5 = (number == 5) ? true : false;
-        step4 = (number == 4) ? true : false;
-        step3 = (number == 3) ? true : false;
-        step2 = (number == 2) ? true : false;
-        step1 = (number == 1) ? true : false;
+        step6 = (moves == 6) ? true : false;
+        step5 = (moves == 5) ? true : false;
+        step4 = (moves == 4) ? true : false;
+        step3 = (moves == 3) ? true : false;
+        step2 = (moves == 2) ? true : false;
+        step1 = (moves == 1) ? true : false;
+        
+        System.out.println("Langkah : " + moves);
 
     }
 

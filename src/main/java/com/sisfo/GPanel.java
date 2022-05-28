@@ -1,7 +1,7 @@
 package com.sisfo;
 
-import com.entity.Player;
-import com.tile.TileCollection;
+import com.sisfo.sprites.Player;
+import com.sisfo.tiles.TileCollection;
 
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
@@ -38,9 +38,9 @@ public class GPanel extends Canvas {
     private TileCollection map = new TileCollection(this);
 
     private GraphicsContext graphic = getGraphicsContext2D();
-    
+
     private final long FIRST_SECOND = System.currentTimeMillis();
-    
+
     private GameEvent dice = new GameEvent();
 
     private Player player = new Player(this, dice);
@@ -59,6 +59,8 @@ public class GPanel extends Canvas {
         this.setWidth(panelWidth);
         this.setFocusTraversable(true);
 
+       
+
         Thread thread = new Thread(() -> { // = public void run() - ini sebagai Engine Game :
 
             double delta = 0;
@@ -73,11 +75,11 @@ public class GPanel extends Canvas {
                 update();
 
                 render(graphic);
-                
+
             };
-            
+
             while (true) { // Thread yang hanya dijalankan di background :
-                
+
                 // Merender sesuai FPS agar tidak memakan CPU:
                 currentTime = System.nanoTime();
                 delta += (currentTime - lastTime) / drawInterval;
@@ -94,33 +96,32 @@ public class GPanel extends Canvas {
                     System.out.printf("\n[FPS:%s] waktu = %s d", drawCount, getSecond());
                     drawCount = 0;
                     timer = 0;
-                }    
+                }
             }
         });
-        
+
         thread.setDaemon(true);
         thread.start();
     }
 
     public int getSecond() {
         long now = System.currentTimeMillis();
-        return (int)((now - FIRST_SECOND) / 1000);
+        return (int) ((now - FIRST_SECOND) / 1000);
     }
 
     public void update() { // Angka dadu berubah & Kejadian-kejadian di stack disini:
-  
-        player.update();
+
+        player.updateP1();
+        player.updateP2();
 
     }
 
     public void render(GraphicsContext render) { // Pemanggilan apa saja yang akan di gambar disini :
-        
+
         map.draw(render); // Meng-render map
         player.drawP1(render); // Meng-render pemain
         player.drawP2(render);
         render.restore(); // Mereset gambar (agar tidak ngelag)
-
-
 
     }
 
