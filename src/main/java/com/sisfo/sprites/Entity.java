@@ -10,6 +10,9 @@ public class Entity extends Object {
     public static int PLAYER2_Y;
     public static int PLAYER1_SCORE;
     public static int PLAYER2_SCORE;
+    public static int playerID = 2;
+
+    public int worldX, worldY;
 
     public int spriteCounterP1 = 0;
     public int spriteNumP1 = 1;
@@ -17,7 +20,7 @@ public class Entity extends Object {
     public int spriteCounterP2 = spriteCounterP1;
     public int spriteNumP2 = spriteNumP1;
 
-    public int playerID = 1;
+    
 
     public int trap[];
 
@@ -43,10 +46,14 @@ public class Entity extends Object {
         // Posisi awal Player 1
         PLAYER1_X = 12;
         PLAYER1_Y = window.panelHeigth - (5 * window.tileSize);
+        worldX = PLAYER1_X;
+        worldY = PLAYER1_Y;
 
         // Posisi awal Player 2
         PLAYER2_X = 12;
         PLAYER2_Y = window.panelHeigth - (5 * window.tileSize);
+        worldX = PLAYER2_X;
+        worldY = PLAYER2_Y;
 
     }
 

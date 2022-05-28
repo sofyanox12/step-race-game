@@ -1,5 +1,6 @@
 package com.sisfo;
 
+import com.sisfo.sprites.Entity;
 import com.sisfo.sprites.Player;
 import com.sisfo.tiles.Objects;
 import com.sisfo.tiles.TileCollection;
@@ -16,9 +17,7 @@ import javafx.scene.canvas.GraphicsContext;
 
 public class GPanel extends Canvas {
 
-    final Canvas canvas;
-
-    // Layar
+    // PENGATURAN LAYAR
     public final int tileSize = 48; // 48x48 Ukuran Tile - sesuaikan
     public final int charScale = 1;
 
@@ -32,37 +31,56 @@ public class GPanel extends Canvas {
 
     // FPS
     public final int FPS = 60;
-
     public Thread gameRunning;
 
-    // Pernyataan panggilan kelas lain
+    // PANGGIL KELAS LAIN KE LAYAR
     private TileCollection map = new TileCollection(this);
 
     private GraphicsContext graphic = getGraphicsContext2D();
 
     private final long FIRST_SECOND = System.currentTimeMillis();
 
-    private GameEvent dice = new GameEvent();
+    private GameEvent gameEvent = new GameEvent();
 
-    private Player player = new Player(this, dice);
+    public Player player = new Player(this, gameEvent);
 
     private Objects object = new Objects();
 
-    // Pengaturan Map
+
+    // PENGATURAN MAP
     public final int maxWorldCol = 50;
     public final int maxWorldRow = 12;
     public final int worldWidth = spriteSize * maxPanelCol;
     public final int worldHeigth = spriteSize * maxPanelRow;
+    public Boolean leftPressed, rightPressed;
 
     // Rendering
     public GPanel() {
-
-        this.canvas = new Canvas();
         this.setHeight(panelHeigth);
         this.setWidth(panelWidth);
         this.setFocusTraversable(true);
+        this.setOnKeyPressed(key -> {
+            switch (key.getCode()) {
+                case LEFT:
+                    leftPressed = true;
+                    Player.mapShift += 5;
+                    break;
 
-       
+                case RIGHT:
+                    rightPressed = true;
+                    Player.mapShift -= 5;
+                    break;
+
+                case SPACE:
+                    if ((Player.idlingP1 && Player.idlingP2) && !player.computerPlay) {
+                        Entity.playerID = 1;
+                        player.diceRoll();
+                    }
+
+                default:
+                    break;
+            }
+        });
 
         Thread thread = new Thread(() -> { // = public void run() - ini sebagai Engine Game :
 
@@ -76,7 +94,6 @@ public class GPanel extends Canvas {
             Runnable updater = () -> { // Thread yang mampu memberikan efek ke GUI javaFX :
 
                 update();
-
                 render(graphic);
 
             };
@@ -84,7 +101,7 @@ public class GPanel extends Canvas {
             while (true) { // Thread yang hanya dijalankan di background :
 
                 // Merender sesuai FPS agar tidak memakan CPU:
-                currentTime = System.nanoTime();
+                currentTime = System.nanoTime(); //System.currentmillis
                 delta += (currentTime - lastTime) / drawInterval;
                 timer += (currentTime - lastTime);
                 lastTime = currentTime;
@@ -112,11 +129,10 @@ public class GPanel extends Canvas {
         return (int) ((now - FIRST_SECOND) / 1000);
     }
 
-    public void update() { // Angka dadu berubah & Kejadian-kejadian di stack disini:
+    public void update() { // Mengupdate informasi yang berjalan
 
         player.updateP1();
         player.updateP2();
-        
 
     }
 
@@ -130,16 +146,12 @@ public class GPanel extends Canvas {
         object.renderDice(render, player);
         object.renderPosition(render);
 
-        if (player.computerPlay) {
-
-        }
-
-
-
-
-        render.restore(); // Mereset gambar (agar tidak ngelag)
+        render.restore(); // Mereset gambar (agar tidak tumpang tindih)
         
 
     }
+
+
+
 
 }

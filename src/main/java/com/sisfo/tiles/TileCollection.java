@@ -1,6 +1,7 @@
 package com.sisfo.tiles;
 
 import com.sisfo.GPanel;
+import com.sisfo.sprites.Player;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -96,24 +97,30 @@ public class TileCollection {
 
     public void draw(GraphicsContext t) { // Menentukan Posisi setiap penaruhan tilenya
 
-        int col = 0;
-        int row = 0;
-        int x = 0;
-        int y = 0;
+        int worldCol = 0;
+        int worldRow = 0;
 
-        while (col < gp.maxWorldCol && row < gp.maxWorldRow) {
+        while (worldCol < gp.maxWorldCol && worldRow < gp.maxWorldRow) {
+            
+            int tileNum = mapTileNum[worldCol][worldRow]; // Import satu persatu angka dari map01.txt
+           
+            // POSISI TILE YANG BERADA DI MAP
+            int worldX = worldCol * gp.spriteSize; 
+            int worldY = worldRow * gp.spriteSize;
+            
+            // POSISI TILE YANG DIRENDER
+            int screenX = worldX - gp.player.worldX + Player.mapShift; 
+            int screenY = worldY;
 
-            int tileNum = mapTileNum[col][row]; // Import satu persatu angka dari map01.txt
+            t.drawImage(tile[tileNum].image, screenX, screenY, gp.spriteSize, gp.spriteSize);
+            worldCol++;
 
-            t.drawImage(tile[tileNum].image, x, y, gp.spriteSize, gp.spriteSize);
-            col++;
-            x += gp.spriteSize;
 
-            if (col == gp.maxWorldCol) {
-                col = 0;
-                x = 0;
-                row++;
-                y += gp.tileSize;
+            if (worldCol == gp.maxWorldCol) {
+                worldCol = 0;
+   
+                worldRow++;
+
             }
         }
     }
