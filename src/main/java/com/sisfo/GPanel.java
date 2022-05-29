@@ -46,7 +46,7 @@ public class GPanel extends Canvas {
 
     private Objects object = new Objects();
 
-    private int scrollSpeed = 8;
+    private int scrollSpeed = 12;
 
     // PENGATURAN MAP
     public final int maxWorldCol = 50;
@@ -71,17 +71,19 @@ public class GPanel extends Canvas {
                         Player.PLAYER1_X +=scrollSpeed;
                         Player.PLAYER2_X +=scrollSpeed;
                         object.objectsX +=scrollSpeed;   
+                        System.out.println("CamX : " + Player.mapShift);
                     }
                     
                     break;
 
                 case RIGHT:
-                if ((Player.mapShift < (maxWorldCol * spriteSize) - (maxPanelCol * spriteSize)) && Entity.playerID == 0) {
+                if ((Player.mapShift < (maxWorldCol * spriteSize) - panelWidth) && Entity.playerID == 0) {
                     rightPressed = true;
                     Player.mapShift += scrollSpeed;
                     Player.PLAYER1_X -=scrollSpeed;
                     Player.PLAYER2_X -=scrollSpeed;
                     object.objectsX -=scrollSpeed;
+                    System.out.println("CamX : " + Player.mapShift);
                 }
                     break;
 
@@ -90,6 +92,10 @@ public class GPanel extends Canvas {
                         Entity.playerID = 1;
                         player.diceRoll();
                     }
+                    // if (Math.abs(Player.mapShift - Player.PLAYER1_X) > panelWidth) {
+                    //     Player.mapShift = Player.PLAYER1_X - 2 * spriteSize;
+                        
+                    // }
 
                 default:
                     leftPressed = null;
