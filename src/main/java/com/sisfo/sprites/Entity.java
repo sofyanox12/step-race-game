@@ -1,5 +1,7 @@
 package com.sisfo.sprites;
 
+import java.util.Arrays;
+
 import com.sisfo.GPanel;
 
 import javafx.scene.image.Image;
@@ -13,7 +15,7 @@ public class Entity extends Object {
     public static int PLAYER1_SCORE;
     public static int PLAYER2_SCORE;
     public static int playerID = 2;
-    
+
     public final Image[] walkP1 = new Image[6];
     public final Image[] idleP1 = new Image[4];
 
@@ -26,25 +28,18 @@ public class Entity extends Object {
     public int spriteCounterP2 = spriteCounterP1;
     public int spriteNumP2 = spriteNumP1;
 
-
     public Boolean trapped, punched;
-    
 
-    public static int traps[] = new int[20];
-
-    public void play1() {
-        
-    }
-
-    public void play() {
-
-    }
-
+    public static int traps[] = new int[13];
 
     public void generateItem() {
-        
+
         for (int i = 0; i < traps.length; i++) {
-            traps[i] = (int) (Math.random() * 49) + 8;
+            traps[i] = (int) (Math.random() * 49) + 4; // Bikin trap dari tile ke - 49 sampai tile ke - 4
+
+            if (i > 0 && Math.abs(traps[i-1] - traps[i]) == 1) {
+                traps[i] += 8;
+            }
         }
 
     }
@@ -73,51 +68,6 @@ public class Entity extends Object {
             }
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     public void getPlayer(int x, int playerID) {
 
