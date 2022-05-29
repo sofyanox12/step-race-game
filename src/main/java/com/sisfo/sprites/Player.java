@@ -11,11 +11,7 @@ public class Player extends Entity {
     public static int moves = 0;
     public static int mapShift = 0;
 
-    private final Image[] walkP1 = new Image[6];
-    private final Image[] idleP1 = new Image[4];
-
-    private final Image[] walkP2 = new Image[6];
-    private final Image[] idleP2 = new Image[4];
+    public static int player1, player2;
 
     public final int WIN_SCORE = 50;
 
@@ -37,9 +33,9 @@ public class Player extends Entity {
         this.window = window;
         this.event = event;
         this.setPlayerStartingPos(window);
-        this.generateTraps();
-        this.getPlayer(1, 1);
-        this.getPlayer(4, 2);
+        this.generateItem();
+        this.getPlayer(player1, 1);
+        this.getPlayer(player2, 2);
         this.diceRoll();
         this.stopPlayer();
 
@@ -48,8 +44,6 @@ public class Player extends Entity {
     // .. Akhirnya jadi juga frame updaternya wkwkwk
 
     public void updateP1() {
-
-        checkWinner();
 
         if (!idlingP1) {
 
@@ -86,8 +80,6 @@ public class Player extends Entity {
     }
 
     public void updateP2() {
-
-        checkWinner();
 
         if (!idlingP2) {
 
@@ -188,7 +180,6 @@ public class Player extends Entity {
         event.diceRoll();
         move = event.moves;
         
-
         if (playerID == 1) {
             idlingP1 = true;
             maxMove = PLAYER1_X + (this.event.moves * window.spriteSize);
@@ -206,75 +197,5 @@ public class Player extends Entity {
             stopPlayer();
         }
     }
-
-    public void getPlayer(int x, int playerID) {
-
-        if (playerID == 1) { // Karakter untuk Player 1
-
-            if (x == 1) { // Character : Old Man
-                for (int i = 0, t = 0; i < walkP1.length; i++, t++) {
-                    this.walkP1[i] = new Image(getClass().getResourceAsStream("old_walk" + i + ".png"));
-                    if (t < idleP1.length)
-                        this.idleP1[t] = new Image(getClass().getResourceAsStream("old_idle" + t + ".png"));
-                }
-
-            } else if (x == 2) { // Character : Girl
-                for (int i = 0, t = 0; i < walkP1.length; i++, t++) {
-                    this.walkP1[i] = new Image(getClass().getResourceAsStream("girl_walk" + i + ".png"));
-                    if (t < idleP1.length)
-                        this.idleP1[t] = new Image(getClass().getResourceAsStream("girl_idle" + t + ".png"));
-                }
-
-            } else if (x == 3) { // Character : Man
-                for (int i = 0, t = 0; i < walkP1.length; i++, t++) {
-                    this.walkP1[i] = new Image(getClass().getResourceAsStream("man_walk" + i + ".png"));
-                    if (t < idleP1.length)
-                        this.idleP1[t] = new Image(getClass().getResourceAsStream("man_idle" + t + ".png"));
-                }
-
-            } else if (x == 4) {
-                for (int i = 0, t = 0; i < walkP1.length; i++, t++) { // Character : punk
-                    this.walkP1[i] = new Image(getClass().getResourceAsStream("punk_walk" + i + ".png"));
-                    if (t < idleP1.length)
-                        this.idleP1[t] = new Image(getClass().getResourceAsStream("punk_idle" + t + ".png"));
-                }
-
-            }
-
-        } else if (playerID == 2) { // Karakter untuk Player 2
-
-            if (x == 1) { // Character : Old Man
-                for (int i = 0, t = 0; i < walkP2.length; i++, t++) {
-                    this.walkP2[i] = new Image(getClass().getResourceAsStream("old_walk" + i + ".png"));
-                    if (t < idleP2.length)
-                        this.idleP2[t] = new Image(getClass().getResourceAsStream("old_idle" + t + ".png"));
-                }
-
-            } else if (x == 2) { // Character : Girl
-                for (int i = 0, t = 0; i < walkP2.length; i++, t++) {
-                    this.walkP2[i] = new Image(getClass().getResourceAsStream("girl_walk" + i + ".png"));
-                    if (t < idleP2.length)
-                        this.idleP2[t] = new Image(getClass().getResourceAsStream("girl_idle" + t + ".png"));
-                }
-
-            } else if (x == 3) { // Character : Man
-                for (int i = 0, t = 0; i < walkP2.length; i++, t++) {
-                    this.walkP2[i] = new Image(getClass().getResourceAsStream("man_walk" + i + ".png"));
-                    if (t < idleP2.length)
-                        this.idleP2[t] = new Image(getClass().getResourceAsStream("man_idle" + t + ".png"));
-                }
-
-            } else if (x == 4) {
-                for (int i = 0, t = 0; i < walkP2.length; i++, t++) { // Character : punk
-                    this.walkP2[i] = new Image(getClass().getResourceAsStream("punk_walk" + i + ".png"));
-                    if (t < idleP2.length)
-                        this.idleP2[t] = new Image(getClass().getResourceAsStream("punk_idle" + t + ".png"));
-                }
-
-            } else {
-                System.out.println("Invalid Player ID!");
-            }
-        }
-
-    }
+    
 }

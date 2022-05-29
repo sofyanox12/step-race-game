@@ -121,9 +121,15 @@ public class Objects {
 
         if (Player.winner) {
 
-            String winner = (Player.playerID == 1) ? "PLAYER 1" : "PLAYER 2";
+            String winner = (Player.PLAYER2_SCORE >= 50) ? "PLAYER 2" : "PLAYER 1";
             g.setFont(new Font("Comic Sans MS", 25));
             g.fillText(winner + " WINS!", 6 * 48, 4 * 48);
+        } else {
+
+            g.setFill(Color.WHITE);
+            for (int i = 0; i <= 50 ; i++) {
+                g.fillText(""+i, (i * 48 + 20) + objectsX, 576 - 1*48 - 20);
+            }
         }
 
         if (Player.mapShift > 0 && Entity.playerID == 0) {
@@ -131,6 +137,16 @@ public class Objects {
         }
         if ((Player.mapShift < (50 * 48) - (16 * 48)) && Entity.playerID == 0){
             g.drawImage(btn[1], 9 * 48 , 5 * 48);
+        }
+        
+        
+
+    }
+
+    public void renderItems(GraphicsContext g) { // Merender tile berwarna untuk perangkap dan powerup
+        for (int i = 0; i < Entity.traps.length; i++) {
+            g.setFill(Color.rgb(128,0,0));
+            g.fillRect(Entity.traps[i] * 48 + objectsX, 576-2*48, 48, 48);
         }
         
     }

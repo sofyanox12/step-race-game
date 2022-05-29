@@ -148,8 +148,10 @@ public class GPanel extends Canvas {
 
     public void update() { // Mengupdate informasi yang berjalan
 
+        player.checkWinner();
         player.updateP1();
         player.updateP2();
+        player.detectUnlucky();
 
     }
 
@@ -161,8 +163,8 @@ public class GPanel extends Canvas {
         // OBJECT
         object.renderMapObject(render);
         object.renderDice(render, player);
+        object.renderItems(render);
         object.renderGUI(render);
-        
         
         // PLAYER
         player.drawP1(render); 

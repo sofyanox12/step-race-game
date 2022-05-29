@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="768.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sisfo.Controller">
+   <children>
+      <ImageView fitHeight="576.0" fitWidth="768.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@menubg/select_player1.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="btn_armian" layoutX="106.0" layoutY="368.0" mnemonicParsing="false" onAction="#selectP1Armian" opacity="0.88" prefHeight="43.0" prefWidth="98.0" style="-fx-background-radius: 25; -fx-background-color: rgba(100, 100, 100, 0.5);" text="ARMIAN" textFill="#d7cccc">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <font>
+            <Font name="OCR A Extended" size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="btn_punk" layoutX="261.0" layoutY="368.0" mnemonicParsing="false" onAction="#selectP1Punk" opacity="0.88" prefHeight="43.0" prefWidth="98.0" style="-fx-background-radius: 25; -fx-background-color: rgba(100, 100, 100, 0.5);" text="PUNK" textFill="#d7cccc">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <font>
+            <Font name="OCR A Extended" size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="btn_kiddo" layoutX="412.0" layoutY="368.0" mnemonicParsing="false" onAction="#selectP1Kiddo" opacity="0.88" prefHeight="43.0" prefWidth="98.0" style="-fx-background-radius: 25; -fx-background-color: rgba(100, 100, 100, 0.5);" text="KIDDO" textFill="#d7cccc">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <font>
+            <Font name="OCR A Extended" size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="btn_oldie" layoutX="568.0" layoutY="368.0" mnemonicParsing="false" onAction="#selectP1Oldie" opacity="0.88" prefHeight="43.0" prefWidth="98.0" style="-fx-background-radius: 25; -fx-background-color: rgba(100, 100, 100, 0.5);" text="OLDIE" textFill="#d7cccc">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <font>
+            <Font name="OCR A Extended" size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="backP1" layoutX="631.0" layoutY="490.0" mnemonicParsing="false" onAction="#toMainMenu" opacity="0.0" prefHeight="26.0" prefWidth="77.0" />
+   </children>
+</AnchorPane>
