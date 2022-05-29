@@ -95,6 +95,8 @@ public class TileCollection {
         }
     }
 
+
+
     public void draw(GraphicsContext t) { // Menentukan Posisi setiap penaruhan tilenya
 
         int worldCol = 0;
@@ -109,12 +111,11 @@ public class TileCollection {
             int worldY = worldRow * gp.spriteSize;
             
             // POSISI TILE YANG DIRENDER
-            int screenX = worldX - gp.player.worldX + Player.mapShift; 
+            int screenX = worldX - Player.mapShift; 
             int screenY = worldY;
 
             t.drawImage(tile[tileNum].image, screenX, screenY, gp.spriteSize, gp.spriteSize);
             worldCol++;
-
 
             if (worldCol == gp.maxWorldCol) {
                 worldCol = 0;

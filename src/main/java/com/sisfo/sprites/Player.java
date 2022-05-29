@@ -17,13 +17,18 @@ public class Player extends Entity {
     private final Image[] walkP2 = new Image[6];
     private final Image[] idleP2 = new Image[4];
 
+    public final int WIN_SCORE = 50;
+
     private final GameEvent event;
     private final GPanel window;
 
     public static Boolean idlingP1 = true;
     public static Boolean idlingP2 = true;
+    public static Boolean winner = false;
 
     public Boolean computerPlay = true;
+    public Boolean diceRolling = false;
+
 
     public int move, maxMove;
 
@@ -43,6 +48,8 @@ public class Player extends Entity {
     // .. Akhirnya jadi juga frame updaternya wkwkwk
 
     public void updateP1() {
+
+        checkWinner();
 
         if (!idlingP1) {
 
@@ -79,6 +86,8 @@ public class Player extends Entity {
     }
 
     public void updateP2() {
+
+        checkWinner();
 
         if (!idlingP2) {
 
@@ -137,7 +146,7 @@ public class Player extends Entity {
             spriteNumP2 = (spriteNumP2 < 1) ? 1 : spriteNumP2;
             player2 = idleP2[spriteNumP2 - 1];
 
-        } else if (!idlingP2 && spriteNumP2 < walkP2.length) {
+        } else if (!idlingP2 && spriteNumP2 < walkP2.length ) {
             spriteNumP2 = (spriteNumP2 < 1) ? 1 : spriteNumP2;
             player2 = walkP2[spriteNumP2 - 1];
 
@@ -147,20 +156,21 @@ public class Player extends Entity {
     }
 
     public void stopPlayer() {
-        
+        diceRolling = false;
         computerPlay = (computerPlay) ? false : true;
-        playerID = (playerID == 1) ? 2 : 1;
         if (moves > 1) {
             PLAYER1_SCORE += (playerID == 1) ? event.moves : 0;
             PLAYER2_SCORE += (playerID == 2) ? event.moves : 0;
         } else {
             this.maxMove = 0;
         }
+
         idlingP1 = true;
         idlingP2 = true;
         playerID = 0;
 
-        // Pesan :
+        // TERMINAL CHECKOUT :
+        System.out.println("Max Move : " + maxMove);
         System.out.println("\nGiliran : " + playerID);
         System.out.println("Score Player 1 : " + PLAYER1_SCORE);
         System.out.println("Score Player 2 : " + PLAYER2_SCORE);
@@ -172,15 +182,29 @@ public class Player extends Entity {
         }
     }
 
-    public void diceRoll() {
-        this.event.diceRoll();
-        this.move = event.moves;
-        if (playerID == 1) {
-            this.maxMove = PLAYER1_X + (this.event.moves * window.spriteSize);
-        } else if (playerID == 2) {
-            this.maxMove = PLAYER2_X + (this.event.moves * window.spriteSize);
-        }
+    public void diceRoll() { // Pencet spasi
+
+        diceRolling = true;
+        event.diceRoll();
+        move = event.moves;
         
+
+        if (playerID == 1) {
+            idlingP1 = true;
+            maxMove = PLAYER1_X + (this.event.moves * window.spriteSize);
+        } else if (playerID == 2) {
+            idlingP2 = true;
+            maxMove = PLAYER2_X + (this.event.moves * window.spriteSize);
+        }
+
+    }
+
+    public void checkWinner() {
+        if (PLAYER1_SCORE >= WIN_SCORE || PLAYER2_SCORE >= WIN_SCORE) {
+            winner = true;
+            playerID = 0;
+            stopPlayer();
+        }
     }
 
     public void getPlayer(int x, int playerID) {

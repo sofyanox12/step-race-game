@@ -42,10 +42,11 @@ public class GPanel extends Canvas {
 
     private GameEvent gameEvent = new GameEvent();
 
-    public Player player = new Player(this, gameEvent);
+    private Player player = new Player(this, gameEvent);
 
     private Objects object = new Objects();
 
+    private int scrollSpeed = 8;
 
     // PENGATURAN MAP
     public final int maxWorldCol = 50;
@@ -54,33 +55,49 @@ public class GPanel extends Canvas {
     public final int worldHeigth = spriteSize * maxPanelRow;
     public Boolean leftPressed, rightPressed;
 
-    // Rendering
+    // CONSTRUCTOR WINDOW
     public GPanel() {
+
         this.setHeight(panelHeigth);
         this.setWidth(panelWidth);
         this.setFocusTraversable(true);
-        this.setOnKeyPressed(key -> {
+
+        this.setOnKeyPressed(key -> { // Keyboard
             switch (key.getCode()) {
                 case LEFT:
                     leftPressed = true;
-                    Player.mapShift += 5;
+                    if (Player.mapShift > 0 && Entity.playerID == 0) {
+                        Player.mapShift -= scrollSpeed;
+                        Player.PLAYER1_X +=scrollSpeed;
+                        Player.PLAYER2_X +=scrollSpeed;
+                        object.objectsX +=scrollSpeed;   
+                    }
+                    
                     break;
 
                 case RIGHT:
+                if ((Player.mapShift < (maxWorldCol * spriteSize) - (maxPanelCol * spriteSize)) && Entity.playerID == 0) {
                     rightPressed = true;
-                    Player.mapShift -= 5;
+                    Player.mapShift += scrollSpeed;
+                    Player.PLAYER1_X -=scrollSpeed;
+                    Player.PLAYER2_X -=scrollSpeed;
+                    object.objectsX -=scrollSpeed;
+                }
                     break;
 
                 case SPACE:
-                    if ((Player.idlingP1 && Player.idlingP2) && !player.computerPlay) {
+                    if ((Player.idlingP1 && Player.idlingP2) && !player.computerPlay && !Player.winner) {
                         Entity.playerID = 1;
                         player.diceRoll();
                     }
 
                 default:
+                    leftPressed = null;
+                    rightPressed = null;
                     break;
             }
         });
+
 
         Thread thread = new Thread(() -> { // = public void run() - ini sebagai Engine Game :
 
@@ -101,7 +118,7 @@ public class GPanel extends Canvas {
             while (true) { // Thread yang hanya dijalankan di background :
 
                 // Merender sesuai FPS agar tidak memakan CPU:
-                currentTime = System.nanoTime(); //System.currentmillis
+                currentTime = System.nanoTime(); //nda pake currentTimeMillis karena nanoTime lebih stabil
                 delta += (currentTime - lastTime) / drawInterval;
                 timer += (currentTime - lastTime);
                 lastTime = currentTime;
@@ -136,16 +153,22 @@ public class GPanel extends Canvas {
 
     }
 
-    public void render(GraphicsContext render) { // Pemanggilan apa saja yang akan di gambar disini :
+    public void render(GraphicsContext render) { // Render :
 
-        map.draw(render); // Meng-render map
+        // MAP
+        map.draw(render); 
+
+        // OBJECT
+        object.renderMapObject(render);
+        object.renderDice(render, player);
+        object.renderGUI(render);
         
-        player.drawP1(render); // Meng-render pemain
+        
+        // PLAYER
+        player.drawP1(render); 
         player.drawP2(render);
         
-        object.renderDice(render, player);
-        object.renderPosition(render);
-
+        // RESET AFTER
         render.restore(); // Mereset gambar (agar tidak tumpang tindih)
         
 
