@@ -68,23 +68,22 @@ public class GPanel extends Canvas {
                     leftPressed = true;
                     if (Player.mapShift > 0 && Entity.playerID == 0) {
                         Player.mapShift -= scrollSpeed;
-                        Player.PLAYER1_X +=scrollSpeed;
-                        Player.PLAYER2_X +=scrollSpeed;
-                        object.objectsX +=scrollSpeed;   
+                        Player.PLAYER1_X += scrollSpeed;
+                        Player.PLAYER2_X += scrollSpeed;
+                        object.objectsX += scrollSpeed;
                         System.out.println("CamX : " + Player.mapShift);
                     }
-                    
                     break;
 
                 case RIGHT:
-                if ((Player.mapShift < (maxWorldCol * spriteSize) - panelWidth) && Entity.playerID == 0) {
-                    rightPressed = true;
-                    Player.mapShift += scrollSpeed;
-                    Player.PLAYER1_X -=scrollSpeed;
-                    Player.PLAYER2_X -=scrollSpeed;
-                    object.objectsX -=scrollSpeed;
-                    System.out.println("CamX : " + Player.mapShift);
-                }
+                    if ((Player.mapShift < (maxWorldCol * spriteSize) - panelWidth) && Entity.playerID == 0) {
+                        rightPressed = true;
+                        Player.mapShift += scrollSpeed;
+                        Player.PLAYER1_X -= scrollSpeed;
+                        Player.PLAYER2_X -= scrollSpeed;
+                        object.objectsX -= scrollSpeed;
+                        System.out.println("CamX : " + Player.mapShift);
+                    }
                     break;
 
                 case SPACE:
@@ -92,10 +91,19 @@ public class GPanel extends Canvas {
                         Entity.playerID = 1;
                         player.diceRoll();
                     }
-                    // if (Math.abs(Player.mapShift - Player.PLAYER1_X) > panelWidth) {
-                    //     Player.mapShift = Player.PLAYER1_X - 2 * spriteSize;
-                        
-                    // }
+                    break;
+
+                case Q:
+                    player.useQ();
+                    break;
+
+                case W:
+                    player.useW();
+                    break;
+
+                case E:
+                    player.useE();
+                    break;
 
                 default:
                     leftPressed = null;
@@ -103,7 +111,6 @@ public class GPanel extends Canvas {
                     break;
             }
         });
-
 
         Thread thread = new Thread(() -> { // = public void run() - ini sebagai Engine Game :
 
@@ -124,7 +131,7 @@ public class GPanel extends Canvas {
             while (true) { // Thread yang hanya dijalankan di background :
 
                 // Merender sesuai FPS agar tidak memakan CPU:
-                currentTime = System.nanoTime(); //nda pake currentTimeMillis karena nanoTime lebih stabil
+                currentTime = System.nanoTime(); // nda pake currentTimeMillis karena nanoTime lebih stabil
                 delta += (currentTime - lastTime) / drawInterval;
                 timer += (currentTime - lastTime);
                 lastTime = currentTime;
@@ -152,37 +159,34 @@ public class GPanel extends Canvas {
         return (int) ((now - FIRST_SECOND) / 1000);
     }
 
-    public void update() { // Mengupdate informasi yang berjalan
+    public void update() { // UPDATE INFORMASI DI BELAKANG LAYAR
 
         player.checkWinner();
         player.updateP1();
         player.updateP2();
-        player.detectUnlucky();
+        player.detectEvent();
 
     }
 
-    public void render(GraphicsContext render) { // Render :
+    public void render(GraphicsContext render) { // MENGGAMBAR BERBAGAI INFORMASI DI LAYAR
 
         // MAP
-        map.draw(render); 
+        map.draw(render);
 
         // OBJECT
         object.renderMapObject(render);
         object.renderDice(render, player);
         object.renderItems(render);
         object.renderGUI(render);
-        
+        object.renderPlayerUI(render);
+
         // PLAYER
-        player.drawP1(render); 
+        player.drawP1(render);
         player.drawP2(render);
-        
-        // RESET AFTER
-        render.restore(); // Mereset gambar (agar tidak tumpang tindih)
-        
+
+        // CACHE
+        render.restore(); // RESET
 
     }
-
-
-
 
 }
