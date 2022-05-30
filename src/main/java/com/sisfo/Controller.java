@@ -11,67 +11,23 @@ import java.io.IOException;
 
 import com.sisfo.sprites.Player;
 
+/*
+    Ini adalah kelas Controller yang menjadi patokan
+    untuk mendeteksi segala bentuk inputan dari GUI
+    buatan javaFX seperti tombolnya dan lain-lain;
+*/
+
 public class Controller extends StepRace {
 
-    /* 
-        Ini adalah kelas Controller yang menjadi patokan 
-        untuk mendeteksi segala bentuk inputan dari GUI
-        buatan javaFX seperti tombolnya dan lain-lain;
-    */
-    
     @FXML
-    private Button aboutButton;
-
-    @FXML
-    private Button multiButton;
-
-    @FXML
-    private Button playButton;
-
-    @FXML
-    private Button exitButton;
-
-    @FXML
-    private Button backMulti;
-
-    @FXML
-    private Button backAbout;
-
-    @FXML
-    private Button backP1;
-
-    @FXML
-    private Button btn_armian;
-
-    @FXML
-    private Button btn_kiddo;
-
-    @FXML
-    private Button btn_oldie;
-
-    @FXML
-    private Button btn_punk;
-
-    @FXML
-    private Button backP2;
-
-    @FXML
-    private Button btn_armian2;
-
-    @FXML
-    private Button btn_kiddo2;
-
-    @FXML
-    private Button btn_oldie2;
-
-    @FXML
-    private Button btn_punk2;
+    private Button aboutButton, multiButton, playButton, exitButton, backMulti, backAbout, backP1, btn_armian,
+            btn_kiddo, btn_oldie, btn_punk, backP2, btn_armian2, btn_kiddo2, btn_oldie2, btn_punk2;
 
     @FXML
     void menuAbout() throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("menubg2.fxml"));
         StepRace.stage.setScene(new Scene(root));
-        
+
     }
 
     @FXML
@@ -98,7 +54,7 @@ public class Controller extends StepRace {
     }
 
     @FXML
-    void gotoGithub() throws IOException { 
+    void gotoGithub() throws IOException {
         getHostServices().showDocument("https://github.com/sofyanox12/step-race-game");
     }
 
@@ -125,7 +81,6 @@ public class Controller extends StepRace {
         Player.player1 = 4;
         gotoP2();
     }
-    
 
     @FXML
     void selectP2Armian() {
@@ -164,7 +119,7 @@ public class Controller extends StepRace {
         StepRace.stage.setScene(scene);
     }
 
-    void gotoP2()  {
+    void gotoP2() {
         Parent root;
         try {
             root = FXMLLoader.load(getClass().getResource("menuselect2.fxml"));
@@ -172,8 +127,7 @@ public class Controller extends StepRace {
         } catch (IOException e) {
             System.out.println("Ouch!");
         }
-        
+
     }
-    
 
 }

@@ -7,6 +7,12 @@ import com.sisfo.tiles.Objects;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
+/*
+    Peran Kelas Player disini adalah untuk menyatakan
+    berbagai informasi apa saja yang akan terjadi dan sedang
+    terjadi pada player.
+*/
+
 public class Player extends Entity {
 
     public static int moves = 0;
@@ -29,7 +35,7 @@ public class Player extends Entity {
 
     public int move, maxMove;
 
-    public Player(GPanel window, GameEvent event) { // Kunci dari semua ini
+    public Player(GPanel window, GameEvent event) {
 
         this.window = window;
         this.event = event;
@@ -42,17 +48,14 @@ public class Player extends Entity {
 
     }
 
-    // .. Akhirnya jadi juga frame updaternya wkwkwk
-
     public void updateP1() {
 
         if (!idlingP1) {
-
             if (PLAYER1_X < maxMove) {
                 playerID = 1;
                 PLAYER1_X++;
 
-                if (spriteCounterP1 > 5 && !idlingP1) { // Delay per animasi Karakter
+                if (spriteCounterP1 > 5 && !idlingP1) { // DELAY ANIMASI
                     spriteNumP1 += (spriteNumP1 < walkP1.length) ? 1 : 0;
                     spriteNumP1 = (spriteNumP1 == walkP1.length) ? 1 : spriteNumP1;
                     spriteCounterP1 = 0;
@@ -66,7 +69,7 @@ public class Player extends Entity {
         }
 
         else {
-            if (spriteCounterP1 > 10) { // Delay per animasi Karakter
+            if (spriteCounterP1 > 10) { // DELAY ANIMASI
                 spriteNumP1 += (spriteNumP1 < idleP1.length) ? 1 : 0;
                 spriteNumP1 = (spriteNumP1 == idleP1.length) ? 1 : spriteNumP1;
                 spriteCounterP1 = 0;
@@ -76,19 +79,17 @@ public class Player extends Entity {
 
         if (mapShift < 0)
             mapShift = 0;
-        // System.out.println("\tPlayer1 ::> " + spriteNumP1 + " " + idlingP1);
 
     }
 
     public void updateP2() {
 
         if (!idlingP2) {
-
             if (PLAYER2_X < maxMove) {
                 playerID = 2;
                 PLAYER2_X++;
 
-                if (spriteCounterP2 > 5 && !idlingP2) { // Delay per animasi Karakter
+                if (spriteCounterP2 > 5 && !idlingP2) { // DELAY ANIMASI
                     spriteNumP2 += (spriteNumP2 < walkP2.length) ? 1 : 0;
                     spriteNumP2 = (spriteNumP2 == walkP2.length) ? 1 : spriteNumP2;
                     spriteCounterP2 = 0;
@@ -102,17 +103,16 @@ public class Player extends Entity {
         }
 
         else {
-            if (spriteCounterP2 > 10) { // Delay per animasi Karakter
+            if (spriteCounterP2 > 10) { // DELAY ANIMASI
                 spriteNumP2 += (spriteNumP2 < idleP2.length) ? 1 : 0;
                 spriteNumP2 = (spriteNumP2 == idleP2.length) ? 1 : spriteNumP2;
                 spriteCounterP2 = 0;
             }
             spriteCounterP2++;
         }
-
-        // System.out.print("\nPlayer2 ::> " + spriteNumP2 + " " + idlingP2);
     }
 
+    // MEKANISME RENDER PLAYER 1
     public void drawP1(GraphicsContext render) {
 
         Image player1 = null;
@@ -129,6 +129,7 @@ public class Player extends Entity {
         render.drawImage(player1, PLAYER1_X, PLAYER1_Y, window.spriteSize, window.spriteSize);
     }
 
+    // MEKANISME RENDER PLAYER 2
     public void drawP2(GraphicsContext render) {
 
         Image player2 = null;
@@ -142,13 +143,14 @@ public class Player extends Entity {
             player2 = walkP2[spriteNumP2 - 1];
 
         }
-
         render.drawImage(player2, PLAYER2_X, PLAYER2_Y, window.spriteSize, window.spriteSize);
     }
 
+    // MENSTOP PLAYER DAN MENGKONFIGURASI HAL YANG DIPERLUKAN
     public void stopPlayer() {
 
         diceRolling = false;
+
         if (moves > 1) {
             Player.forward = event.moves;
             PLAYER1_SCORE += (playerID == 1) ? event.moves : 0;
@@ -183,11 +185,12 @@ public class Player extends Entity {
 
     private int count = 0;
 
-    public void diceRoll() { // Pencet spasi
+    // MENGGOYANG DADU DAN MENGKONFIGURASI HAL YANG DIPERLUKAN
+    public void diceRoll() {
         count++;
         if (count > 1) {
             P1_IS_INVINCIBLE = false;
-            count =0;
+            count = 0;
         }
         diceRolling = true;
         event.diceRoll();
@@ -206,6 +209,7 @@ public class Player extends Entity {
 
     }
 
+    // MENGECEK PEMAIN MANA YANG MENANG
     public void checkWinner() {
 
         if (PLAYER1_SCORE >= WIN_SCORE || PLAYER2_SCORE >= WIN_SCORE) {
@@ -213,12 +217,13 @@ public class Player extends Entity {
             playerID = 0;
             stopPlayer();
         }
-        if (idlingP1 && idlingP2 && powerSlot2 != null && !gotPower2 ) {
+        if (idlingP1 && idlingP2 && powerSlot2 != null && !gotPower2) {
             computerUseSkill((int) (Math.random() * 3));
-            gotPower2=false;
+            gotPower2 = false;
         }
     }
 
+    // KONFIGURASI KEYBOARD
     public void useQ() {
         if (idlingP1 && idlingP2 && powerSlot1[0] != null) {
             useSkill(0);
@@ -237,38 +242,39 @@ public class Player extends Entity {
         }
     }
 
+    // MEKANISME PENGUNAAN SKILL PLAYER
     public void useSkill(int i) {
-        
-        if (powerSlot1[i] == "BLINK") {
 
+        if (powerSlot1[i] == "BLINK") {
 
             PLAYER1_X += 3 * 48;
             PLAYER1_SCORE += 3;
             Objects.message = "PLAYER 1 USED BLINK!";
 
         } else if (powerSlot1[i] == "HOOK") {
- 
+
             PLAYER2_X = (PLAYER2_X > PLAYER1_X) ? PLAYER1_X : PLAYER2_X;
             PLAYER2_SCORE = (PLAYER2_SCORE > PLAYER1_X) ? PLAYER1_SCORE : PLAYER2_SCORE;
             Objects.message = "PLAYER 1 USED HOOK ON PLAYER 2!";
 
         } else if (powerSlot1[i] == "INVINCIBLE") {
-   
+
             P1_IS_INVINCIBLE = true;
             Objects.message = "PLAYER 1 USED INVINCIBLE!";
         }
         powerSlot1[i] = null;
     }
 
+    // MEKANISME PENGUNAAN SKILL KOMPUTER
     public void computerUseSkill(int i) {
-        
+
         if (powerSlot2[i] == "BLINK") {
             PLAYER2_X += 3 * 48;
             PLAYER2_SCORE += 3;
             Objects.message = "PLAYER 2 USED BLINK!";
 
         } else if (powerSlot2[i] == "HOOK") {
-     
+
             PLAYER1_X = (PLAYER1_X > PLAYER2_X) ? PLAYER2_X : PLAYER1_X;
             PLAYER1_SCORE = (PLAYER1_SCORE > PLAYER2_X) ? PLAYER2_SCORE : PLAYER1_SCORE;
             Objects.message = "PLAYER 2 USED HOOK ON PLAYER 1!";

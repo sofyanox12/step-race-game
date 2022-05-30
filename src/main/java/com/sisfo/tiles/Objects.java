@@ -8,10 +8,16 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
+/*
+    Peran Kelas Objects disini adalah sebagai kelas
+    yang mengambil data untuk di baca dan mendeteksi
+    kerja data hingga memvisualisasikannya.
+*/
+
 public class Objects {
 
     public static int objectsX = 0;
-    public static String message = "(Currently No Event)";
+    public static String message = "(No Event)";
 
     private Image dice[] = new Image[6];
     private Image tree[] = new Image[3];
@@ -158,8 +164,6 @@ public class Objects {
     public void renderItems(GraphicsContext g) { // Merender tile berwarna untuk perangkap dan powerup
         for (int i = 0; i < Entity.traps.length; i++) {
             g.setFill(Color.rgb(128, 0, 0, 0.5));
-            // g.setFill(Color.TRANSPARENT);
-            // g.setStroke(Color.rgb(128, 0, 0, 0));
             g.fillRect(Entity.traps[i] * 48 + objectsX + 1, 576 - 2 * 48 + 1, 46, 46);
         }
 
@@ -190,7 +194,7 @@ public class Objects {
         g.fillText("[" + "E" + "]", 3 * 68 - 4, 55);
 
         if (!Player.winner)
-            g.fillText("Event : " + message, 20, 4 * 48);
+            g.fillText("EVENT LOG : " + message, 20, 4 * 48);
 
     }
 

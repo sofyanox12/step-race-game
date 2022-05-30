@@ -3,17 +3,16 @@ package com.sisfo.sprites;
 import com.sisfo.GPanel;
 import javafx.scene.image.Image;
 
+/*
+    Peran Kelas Entity adalah sebagai pemetaan
+    objek entitas yang memiliki nilai interaksinya
+    seperti Pemain, Power Up, dan Perangkap.
+*/
+
 public class Entity extends Object {
 
-    public static int PLAYER1_X;
-    public static int PLAYER1_Y;
-    public static int PLAYER2_X;
-    public static int PLAYER2_Y;
-    public static int PLAYER1_SCORE;
-    public static int PLAYER2_SCORE;
+    public static int PLAYER1_X, PLAYER1_Y, PLAYER2_X, PLAYER2_Y, PLAYER1_SCORE, PLAYER2_SCORE;
     public static int playerID = 2;
-    public Boolean gotPower1 = false;
-    public Boolean gotPower2 = false;
 
     public static String powerSlot1[];
     public static String powerSlot2[];
@@ -34,6 +33,8 @@ public class Entity extends Object {
     public int spriteNumP2 = spriteNumP1;
 
     public Boolean P1_IS_INVINCIBLE = false;
+    public Boolean gotPower1 = false;
+    public Boolean gotPower2 = false;
 
     private String powers[] = { "BLINK", "HOOK", "INVINCIBLE" };
     private String skill;
@@ -46,11 +47,11 @@ public class Entity extends Object {
         for (int i = 0, t = 0; i < traps.length; i++, t++) {
 
             if (i < traps.length) {
-                traps[i] = (int) (Math.random() * 49) + 7; // Bikin trap dari tile ke - 49 sampai tile ke - 4
+                traps[i] = (int) (Math.random() * 49) + 7; // TRAP DARI TILE 49 - 7
             }
 
             if (t < powerUps.length) {
-                powerUps[t] = (int) (Math.random() * 48) + 4;
+                powerUps[t] = (int) (Math.random() * 48) + 5; // POWER UPS DARI TILE 48 - 5
 
                 if (traps[i] == powerUps[t]) {
                     powerUps[i]++;
@@ -58,6 +59,7 @@ public class Entity extends Object {
                 }
             }
 
+            // MEKANISME UNTUK MENGURANGI TABRAKAN POWERUPS & TRAPS
             if (i > 0 && Math.abs(traps[i - 1] - traps[i]) == 1) {
                 traps[i] += 8;
             }
@@ -71,6 +73,7 @@ public class Entity extends Object {
     }
 
     public void setPlayerStartingPos(GPanel window) {
+        
         // SET POSISI AWAL PLAYER 1
         PLAYER1_X = 12;
         PLAYER1_Y = window.panelHeigth - (5 * window.tileSize);
@@ -149,32 +152,40 @@ public class Entity extends Object {
 
     }
 
-    public void getPlayer(int x, int playerID) {
+    public void getPlayer(int charID, int playerID) {
+        /*
+         * Informasi charID :
+         * 1 : OLDIE
+         * 2 : KIDDO
+         * 3 : ARMIAN
+         * 4 : PUNK
+         */
 
-        if (playerID == 1) { // Karakter untuk Player 1
+        // SET UNTUK PLAYER 1
+        if (playerID == 1) {
 
-            if (x == 1) { // Character : Old Man
+            if (charID == 1) {
                 for (int i = 0, t = 0; i < walkP1.length; i++, t++) {
                     walkP1[i] = new Image(getClass().getResourceAsStream("old_walk" + i + ".png"));
                     if (t < idleP1.length)
                         idleP1[t] = new Image(getClass().getResourceAsStream("old_idle" + t + ".png"));
                 }
 
-            } else if (x == 2) { // Character : Girl
+            } else if (charID == 2) { // Character : Girl
                 for (int i = 0, t = 0; i < walkP1.length; i++, t++) {
                     walkP1[i] = new Image(getClass().getResourceAsStream("girl_walk" + i + ".png"));
                     if (t < idleP1.length)
                         idleP1[t] = new Image(getClass().getResourceAsStream("girl_idle" + t + ".png"));
                 }
 
-            } else if (x == 3) { // Character : Man
+            } else if (charID == 3) { // Character : Man
                 for (int i = 0, t = 0; i < walkP1.length; i++, t++) {
                     walkP1[i] = new Image(getClass().getResourceAsStream("man_walk" + i + ".png"));
                     if (t < idleP1.length)
                         idleP1[t] = new Image(getClass().getResourceAsStream("man_idle" + t + ".png"));
                 }
 
-            } else if (x == 4) {
+            } else if (charID == 4) {
                 for (int i = 0, t = 0; i < walkP1.length; i++, t++) { // Character : punk
                     walkP1[i] = new Image(getClass().getResourceAsStream("punk_walk" + i + ".png"));
                     if (t < idleP1.length)
@@ -183,39 +194,40 @@ public class Entity extends Object {
 
             }
 
+            // SET UNTUK PLAYER 2
         } else if (playerID == 2) { // Karakter untuk Player 2
 
-            if (x == 1) { // Character : Old Man
+            if (charID == 1) { // Character : Old Man
                 for (int i = 0, t = 0; i < walkP2.length; i++, t++) {
                     walkP2[i] = new Image(getClass().getResourceAsStream("old_walk" + i + ".png"));
                     if (t < idleP2.length)
                         idleP2[t] = new Image(getClass().getResourceAsStream("old_idle" + t + ".png"));
                 }
 
-            } else if (x == 2) { // Character : Girl
+            } else if (charID == 2) { // Character : Girl
                 for (int i = 0, t = 0; i < walkP2.length; i++, t++) {
                     walkP2[i] = new Image(getClass().getResourceAsStream("girl_walk" + i + ".png"));
                     if (t < idleP2.length)
                         idleP2[t] = new Image(getClass().getResourceAsStream("girl_idle" + t + ".png"));
                 }
 
-            } else if (x == 3) { // Character : Man
+            } else if (charID == 3) { // Character : Man
                 for (int i = 0, t = 0; i < walkP2.length; i++, t++) {
                     walkP2[i] = new Image(getClass().getResourceAsStream("man_walk" + i + ".png"));
                     if (t < idleP2.length)
                         idleP2[t] = new Image(getClass().getResourceAsStream("man_idle" + t + ".png"));
                 }
 
-            } else if (x == 4) {
+            } else if (charID == 4) {
                 for (int i = 0, t = 0; i < walkP2.length; i++, t++) { // Character : punk
                     walkP2[i] = new Image(getClass().getResourceAsStream("punk_walk" + i + ".png"));
                     if (t < idleP2.length)
                         idleP2[t] = new Image(getClass().getResourceAsStream("punk_idle" + t + ".png"));
                 }
 
-            } else {
-                System.out.println("Invalid Player ID!");
-            }
+            }  
+        } else {
+            System.out.println("Invalid Player ID!");
         }
 
     }

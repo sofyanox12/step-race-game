@@ -18,8 +18,8 @@ import javafx.scene.canvas.GraphicsContext;
 public class GPanel extends Canvas {
 
     // PENGATURAN LAYAR
-    public final int tileSize = 48; // 48x48 Ukuran Tile - sesuaikan
-    public final int charScale = 1;
+    public final int tileSize = 48; // 48x48 Ukuran Tile
+    public final int charScale = 1; // Skala besarnya Tile
 
     public final int spriteSize = tileSize * charScale; // 48x1 = 48x48 Ukuran pixel
 
@@ -34,18 +34,12 @@ public class GPanel extends Canvas {
     public Thread gameRunning;
 
     // PANGGIL KELAS LAIN KE LAYAR
-    private TileCollection map = new TileCollection(this);
-
-    private GraphicsContext graphic = getGraphicsContext2D();
-
     private final long FIRST_SECOND = System.currentTimeMillis();
-
+    private TileCollection map = new TileCollection(this);
+    private GraphicsContext graphic = getGraphicsContext2D();
     private GameEvent gameEvent = new GameEvent();
-
     private Player player = new Player(this, gameEvent);
-
     private Objects object = new Objects();
-
     private int scrollSpeed = 12;
 
     // PENGATURAN MAP
@@ -55,14 +49,15 @@ public class GPanel extends Canvas {
     public final int worldHeigth = spriteSize * maxPanelRow;
     public Boolean leftPressed, rightPressed;
 
-    // CONSTRUCTOR WINDOW
+    // PANEL CONSTRUCTOR
     public GPanel() {
 
         this.setHeight(panelHeigth);
         this.setWidth(panelWidth);
         this.setFocusTraversable(true);
 
-        this.setOnKeyPressed(key -> { // Keyboard
+        // KEYBOARD IN-GAME NYA
+        this.setOnKeyPressed(key -> { 
             switch (key.getCode()) {
                 case LEFT:
                     leftPressed = true;
@@ -70,7 +65,7 @@ public class GPanel extends Canvas {
                         Player.mapShift -= scrollSpeed;
                         Player.PLAYER1_X += scrollSpeed;
                         Player.PLAYER2_X += scrollSpeed;
-                        object.objectsX += scrollSpeed;
+                        Objects.objectsX += scrollSpeed;
                         System.out.println("CamX : " + Player.mapShift);
                     }
                     break;
@@ -81,7 +76,7 @@ public class GPanel extends Canvas {
                         Player.mapShift += scrollSpeed;
                         Player.PLAYER1_X -= scrollSpeed;
                         Player.PLAYER2_X -= scrollSpeed;
-                        object.objectsX -= scrollSpeed;
+                        Objects.objectsX -= scrollSpeed;
                         System.out.println("CamX : " + Player.mapShift);
                     }
                     break;
@@ -112,7 +107,8 @@ public class GPanel extends Canvas {
             }
         });
 
-        Thread thread = new Thread(() -> { // = public void run() - ini sebagai Engine Game :
+        // PENGGUNAAN THREAD UNTUK ENGINE DARI GAME
+        Thread thread = new Thread(() -> { 
 
             double delta = 0;
             double timer = 0;
@@ -121,17 +117,16 @@ public class GPanel extends Canvas {
             long lastTime = System.nanoTime();
             long currentTime;
 
-            Runnable updater = () -> { // Thread yang mampu memberikan efek ke GUI javaFX :
-
+            // MENGUPDATE INFORMASI SESUAI THREAD YANG BERJALAN
+            Runnable updater = () -> { 
                 update();
                 render(graphic);
-
             };
 
-            while (true) { // Thread yang hanya dijalankan di background :
+            // MEMBATASI THREAD DENGAN MEKANISME FRAME PER SECOND
+            while (true) {
 
-                // Merender sesuai FPS agar tidak memakan CPU:
-                currentTime = System.nanoTime(); // nda pake currentTimeMillis karena nanoTime lebih stabil
+                currentTime = System.nanoTime();
                 delta += (currentTime - lastTime) / drawInterval;
                 timer += (currentTime - lastTime);
                 lastTime = currentTime;
@@ -160,7 +155,6 @@ public class GPanel extends Canvas {
     }
 
     public void update() { // UPDATE INFORMASI DI BELAKANG LAYAR
-
         player.checkWinner();
         player.updateP1();
         player.updateP2();
