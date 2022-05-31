@@ -31,7 +31,8 @@ libraries usage (in this case : Thread objects).
    [Sofyan]: <https://www.instagram.com/sofyan.pujas/d>
    [Chindy]: <https://www.instagram.com/c.h.i.n.d.y/>
    
+## Preview
 
-[![N|Solid](https://i.ibb.co/sF5WtVT/Untitled.png)](https://nodesource.com/products/nsolid)
+[![N|Solid]([https://i.ibb.co/sF5WtVT/Untitled.png](https://i.postimg.cc/76FHg2Jf/step-race-preview.png))](https://nodesource.com/products/nsolid)
 
 
