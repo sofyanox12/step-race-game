@@ -17,6 +17,8 @@ The reason why we use Java
 - [Chindy Febryan Erwana Putri](https://www.instagram.com/c.h.i.n.d.y/) - H071211038
 
 
+[![N|Solid](https://www.oracle.com/a/tech/img/cb88-java-logo-001.jpg)](https://nodesource.com/products/nsolid)
+
 ## Misc
 
 This game implemented Java FX libraries which gives us a lot of UI nodes option to use.
@@ -29,6 +31,7 @@ libraries usage (in this case : Thread objects).
    [Sofyan]: <https://www.instagram.com/sofyan.pujas/d>
    [Chindy]: <https://www.instagram.com/c.h.i.n.d.y/>
    
-   
-[![N|Solid](https://www.oracle.com/a/tech/img/cb88-java-logo-001.jpg)](https://nodesource.com/products/nsolid)
+
+[![N|Solid](https://i.ibb.co/sF5WtVT/Untitled.png)](https://nodesource.com/products/nsolid)
+
 
