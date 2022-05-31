@@ -33,6 +33,6 @@ libraries usage (in this case : Thread objects).
    
 ## Preview
 
-[![N|Solid]([https://i.ibb.co/sF5WtVT/Untitled.png](https://i.postimg.cc/76FHg2Jf/step-race-preview.png))](https://nodesource.com/products/nsolid)
+[![N|Solid](https://i.postimg.cc/76FHg2Jf/step-race-preview.png)](https://nodesource.com/products/nsolid)
 
 
