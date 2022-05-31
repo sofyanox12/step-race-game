@@ -11,6 +11,16 @@ The reason why we use Java
 - Easy to Learn for Compiled Resources
 - Of Course, for our end-semester's project ✨
 
+Features :
+
+- Dice movement based-game.
+- 3 Kinds of Power UPs with each has their own ability.
+- Traps, Power ups, and Object tiles are randomized.
+- Animated idling and movement on character.
+- Some bugs that we don't have time to fix it.
+
+Enjoy!
+
 ## Author(s)
 
 - [Muh. Sofyan Daud Pujas](https://www.instagram.com/sofyan.pujas/) - H071211045
