@@ -40,6 +40,7 @@ public class GPanel extends Canvas {
     private GameEvent gameEvent = new GameEvent();
     private Player player = new Player(this, gameEvent);
     private Objects object = new Objects();
+    private Controller ctrl = new Controller();
     private int scrollSpeed = 12;
 
     // PENGATURAN MAP
@@ -85,6 +86,14 @@ public class GPanel extends Canvas {
                     if ((Player.idlingP1 && Player.idlingP2) && !player.computerPlay && !Player.winner) {
                         Entity.playerID = 1;
                         player.diceRoll();
+                    }
+                    break;
+                    
+                case ESCAPE:
+                    try {
+                        ctrl.toMainMenu();
+                    } catch (Exception e) {
+                        e.getStackTrace();
                     }
                     break;
 
