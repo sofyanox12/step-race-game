@@ -138,6 +138,7 @@ public class Objects {
     public void renderGUI(GraphicsContext g) {
 
         g.setFill(Color.BLACK);
+        g.fillText("Press [ESC] to Quit to Main Menu", 48 * 12 - 20, 20);
         g.fillText("P1: " + String.valueOf(Entity.PLAYER1_SCORE), Entity.PLAYER1_X, Entity.PLAYER1_Y - 4);
         g.fillText("P2: " + String.valueOf(Entity.PLAYER2_SCORE), Entity.PLAYER2_X, Entity.PLAYER2_Y - 4);
 
