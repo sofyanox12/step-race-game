@@ -191,7 +191,7 @@ public class GPanel extends Canvas {
         player.drawP2(render);
 
         // CACHE
-        render.restore(); // RESET
+        render.restore();
 
     }
 

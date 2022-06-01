@@ -18,6 +18,7 @@ public class Objects {
 
     public static int objectsX = 0;
     public static String message = "(No Event)";
+    public static Boolean showSpaceBar = true;
 
     private Image dice[] = new Image[6];
     private Image tree[] = new Image[3];
@@ -25,18 +26,20 @@ public class Objects {
     private Image misc[] = new Image[2];
     private Image btn[] = new Image[2];
     private Image skill[] = new Image[3];
-    private Image slot;
+    private Image slot, spacebar;
+
     private int spriteCounter = 0;
     private int spriteNum = 1;
     private int duration = 0;
 
+    private Image diceView = null;
     private Boolean render = true;
     private Boolean randomized = false;
+
     private int randomPosX_tree[] = new int[30];
     private int random1;
-    private Image diceView = null;
 
-    private int player;
+    private Font fontStatus, fontWinner;
 
     public Objects() {
 
@@ -55,6 +58,9 @@ public class Objects {
             skill[i] = new Image(getClass().getResourceAsStream("objects/skill" + (i + 1) + ".png"));
         }
         slot = new Image(getClass().getResourceAsStream("objects/" + "slot" + ".png"));
+        fontStatus = Font.loadFont(getClass().getResourceAsStream("fonts/sisfo.ttf"), 18);
+        fontWinner = Font.loadFont(getClass().getResourceAsStream("fonts/sisfo.ttf"), 35);
+        spacebar = new Image(getClass().getResourceAsStream("objects/spacebar.png"));
 
     }
 
@@ -62,14 +68,12 @@ public class Objects {
         spriteCounter = 0;
         spriteNum = 1;
         duration = 0;
-
-        player = (Player.playerID);
     }
 
     public void renderDice(GraphicsContext g, Player p) {
 
         if (p.diceRolling) {
-
+            showSpaceBar = false;
             if (spriteCounter > 5) { // Delay per animasi Karakter
                 spriteNum += (spriteNum < 6) ? 1 : 0;
                 spriteNum = (spriteNum == 6) ? 1 : spriteNum;
@@ -114,25 +118,28 @@ public class Objects {
             }
         }
 
-        String dice = (Entity.playerID == 1) ? "PLAYER 1" : "PLAYER 2";
+        g.setFont(fontStatus);
+
+        String dice = (Entity.playerID != 2) ? "PLAYER 1" : "PLAYER 2";
         String turnInfo = (Entity.playerID != 2) ? "Your Turn!\nPress [SPACE] to Roll the Dice."
                 : "Computer's Turn.\nPlease be Patient...";
 
-        var color = (player == 1) ? Color.DARKGREEN : Color.DARKRED;
-        var diceBackground = (player == 0) ? Color.DARKGREEN : color;
+        var color = (Entity.playerID !=2) ? Color.DARKGREEN : Color.DARKRED;
 
-        g.setFont(new Font("Comic Sans MS", 12));
-        g.setFill(diceBackground);
-
+        if (!Player.winner && Entity.playerID != 2 && showSpaceBar) {
+            g.drawImage(spacebar, 7 * 48 + 5, 9 * 48 - 10);
+            g.setFill(Color.BLACK);
+            g.fillText("SPACE", 7*48 + 32, 9*48 + 20);
+        }
         if (!Player.winner) {
+            g.setFill(Color.BLACK);
             g.fillText(turnInfo, 20, 3 * 48);
             g.fillText("Status :", 20, 3 * 48 - 20);
             g.fillRect(7 * 48 + 22, 5 * 48 - 2, 52, 52);
+            g.setFill(color);
             g.fillText(dice, 7 * 48 + 20, 5 * 48 - 5);
         }
-
         g.drawImage(diceView, 7 * 48 + 24, 5 * 48);
-
     }
 
     public void renderGUI(GraphicsContext g) {
@@ -142,8 +149,8 @@ public class Objects {
         g.fillText("P2: " + String.valueOf(Entity.PLAYER2_SCORE), Entity.PLAYER2_X, Entity.PLAYER2_Y - 4);
 
         if (Player.winner) {
+            g.setFont(fontWinner);
             String winner = (Player.PLAYER2_SCORE >= 50) ? "PLAYER 2" : "PLAYER 1";
-            g.setFont(new Font("Comic Sans MS", 25));
             g.fillText(winner + " WINS!", 6 * 48, 4 * 48);
 
         } else {
@@ -188,7 +195,7 @@ public class Objects {
                 g.drawImage(skill[2], t, 31, 44, 46);
         }
 
-        g.setFont(new Font("System", 14));
+        g.setFont(fontStatus);
         g.fillText("[" + "Q" + "]", 1 * 68 - 8, 55);
         g.fillText("[" + "W" + "]", 2 * 68 - 8, 55);
         g.fillText("[" + "E" + "]", 3 * 68 - 4, 55);

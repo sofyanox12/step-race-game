@@ -26,7 +26,7 @@ public class TileCollection {
 
     public TileCollection(GPanel gp) {
         this.gp = gp;
-        tile = new Image[15];
+        tile = new Image[tileAssets];
 
         mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
         getTileView();

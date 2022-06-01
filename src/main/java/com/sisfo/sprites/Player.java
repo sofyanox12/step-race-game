@@ -150,6 +150,7 @@ public class Player extends Entity {
     public void stopPlayer() {
 
         diceRolling = false;
+        Objects.showSpaceBar = true;
 
         if (moves > 1) {
             Player.forward = event.moves;
@@ -188,10 +189,17 @@ public class Player extends Entity {
     // MENGGOYANG DADU DAN MENGKONFIGURASI HAL YANG DIPERLUKAN
     public void diceRoll() {
         count++;
-        if (count > 1) {
+        
+        if (P1_IS_INVINCIBLE && count > 1) {
             P1_IS_INVINCIBLE = false;
             count = 0;
         }
+
+        if (P2_IS_INVINCIBLE && count > 1) {
+            P2_IS_INVINCIBLE = false;
+            count = 0;
+        }
+
         diceRolling = true;
         event.diceRoll();
         move = event.moves;
@@ -281,7 +289,7 @@ public class Player extends Entity {
 
         } else if (powerSlot2[i] == "INVINCIBLE") {
 
-            P1_IS_INVINCIBLE = true;
+            P2_IS_INVINCIBLE = true;
             Objects.message = "PLAYER 2 USED INVINCIBLE!";
         }
         powerSlot2[i] = null;

@@ -33,6 +33,7 @@ public class Entity extends Object {
     public int spriteNumP2 = spriteNumP1;
 
     public Boolean P1_IS_INVINCIBLE = false;
+    public Boolean P2_IS_INVINCIBLE = false;
     public Boolean gotPower1 = false;
     public Boolean gotPower2 = false;
 
@@ -94,11 +95,10 @@ public class Entity extends Object {
                     PLAYER1_SCORE -= 3;
                 }
 
-                if (PLAYER2_SCORE == traps[i]) {
+                else if (PLAYER2_SCORE == traps[i] && !P2_IS_INVINCIBLE) {
                     PLAYER2_X -= 3 * 48;
                     PLAYER2_SCORE -= 3;
                 }
-
             }
         }
 
@@ -197,21 +197,21 @@ public class Entity extends Object {
             // SET UNTUK PLAYER 2
         } else if (playerID == 2) { // Karakter untuk Player 2
 
-            if (charID == 1) { // Character : Old Man
+            if (charID == 1) {
                 for (int i = 0, t = 0; i < walkP2.length; i++, t++) {
                     walkP2[i] = new Image(getClass().getResourceAsStream("old_walk" + i + ".png"));
                     if (t < idleP2.length)
                         idleP2[t] = new Image(getClass().getResourceAsStream("old_idle" + t + ".png"));
                 }
 
-            } else if (charID == 2) { // Character : Girl
+            } else if (charID == 2) {
                 for (int i = 0, t = 0; i < walkP2.length; i++, t++) {
                     walkP2[i] = new Image(getClass().getResourceAsStream("girl_walk" + i + ".png"));
                     if (t < idleP2.length)
                         idleP2[t] = new Image(getClass().getResourceAsStream("girl_idle" + t + ".png"));
                 }
 
-            } else if (charID == 3) { // Character : Man
+            } else if (charID == 3) {
                 for (int i = 0, t = 0; i < walkP2.length; i++, t++) {
                     walkP2[i] = new Image(getClass().getResourceAsStream("man_walk" + i + ".png"));
                     if (t < idleP2.length)
