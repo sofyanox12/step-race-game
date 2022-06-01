@@ -41,7 +41,9 @@ public class GPanel extends Canvas {
     private Player player = new Player(this, gameEvent);
     private Objects object = new Objects();
     private Controller ctrl = new Controller();
+
     private int scrollSpeed = 12;
+    private Boolean running = true;
 
     // PENGATURAN MAP
     public final int maxWorldCol = 50;
@@ -91,6 +93,7 @@ public class GPanel extends Canvas {
                     
                 case ESCAPE:
                     try {
+                        running = false;
                         ctrl.toMainMenu();
                     } catch (Exception e) {
                         e.getStackTrace();
@@ -133,7 +136,7 @@ public class GPanel extends Canvas {
             };
 
             // MEMBATASI THREAD DENGAN MEKANISME FRAME PER SECOND
-            while (true) {
+            while (running) {
 
                 currentTime = System.nanoTime();
                 delta += (currentTime - lastTime) / drawInterval;
