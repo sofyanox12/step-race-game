@@ -189,7 +189,7 @@ public class Player extends Entity {
     // MENGGOYANG DADU DAN MENGKONFIGURASI HAL YANG DIPERLUKAN
     public void diceRoll() {
         count++;
-        
+
         if (P1_IS_INVINCIBLE && count > 1) {
             P1_IS_INVINCIBLE = false;
             count = 0;
@@ -258,19 +258,23 @@ public class Player extends Entity {
             PLAYER1_X += 3 * 48;
             PLAYER1_SCORE += 3;
             Objects.message = "PLAYER 1 USED BLINK!";
+            powerSlot1[i] = null;
 
         } else if (powerSlot1[i] == "HOOK") {
-
-            PLAYER2_X = (PLAYER2_X > PLAYER1_X) ? PLAYER1_X : PLAYER2_X;
-            PLAYER2_SCORE = (PLAYER2_SCORE > PLAYER1_X) ? PLAYER1_SCORE : PLAYER2_SCORE;
-            Objects.message = "PLAYER 1 USED HOOK ON PLAYER 2!";
+            if (PLAYER1_SCORE < PLAYER2_SCORE) {
+                PLAYER2_X = PLAYER1_X;
+                PLAYER2_SCORE = PLAYER1_SCORE;
+                Objects.message = "PLAYER 1 USED HOOK ON PLAYER 2!";
+                powerSlot1[i] = null;
+            }
 
         } else if (powerSlot1[i] == "INVINCIBLE") {
 
             P1_IS_INVINCIBLE = true;
             Objects.message = "PLAYER 1 USED INVINCIBLE!";
+            powerSlot1[i] = null;
         }
-        powerSlot1[i] = null;
+
     }
 
     // MEKANISME PENGUNAAN SKILL KOMPUTER
@@ -280,18 +284,21 @@ public class Player extends Entity {
             PLAYER2_X += 3 * 48;
             PLAYER2_SCORE += 3;
             Objects.message = "PLAYER 2 USED BLINK!";
+            powerSlot2[i] = null;
 
         } else if (powerSlot2[i] == "HOOK") {
-
-            PLAYER1_X = (PLAYER1_X > PLAYER2_X) ? PLAYER2_X : PLAYER1_X;
-            PLAYER1_SCORE = (PLAYER1_SCORE > PLAYER2_X) ? PLAYER2_SCORE : PLAYER1_SCORE;
-            Objects.message = "PLAYER 2 USED HOOK ON PLAYER 1!";
+            if (PLAYER2_SCORE < PLAYER1_SCORE) {
+                PLAYER1_X = PLAYER2_X;
+                PLAYER1_SCORE = PLAYER2_SCORE;
+                Objects.message = "PLAYER 2 USED HOOK ON PLAYER 1!";
+                powerSlot2[i] = null;
+            }
 
         } else if (powerSlot2[i] == "INVINCIBLE") {
-
             P2_IS_INVINCIBLE = true;
             Objects.message = "PLAYER 2 USED INVINCIBLE!";
+            powerSlot2[i] = null;
         }
-        powerSlot2[i] = null;
+
     }
 }
