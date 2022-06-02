@@ -46,11 +46,10 @@ public class GPanel extends Canvas {
     private Boolean running = true;
 
     // PENGATURAN MAP
-    public final int maxWorldCol = 50;
+    public final int maxWorldCol = 51;
     public final int maxWorldRow = 12;
     public final int worldWidth = spriteSize * maxPanelCol;
     public final int worldHeigth = spriteSize * maxPanelRow;
-    public Boolean leftPressed, rightPressed;
 
     // PANEL CONSTRUCTOR
     public GPanel() {
@@ -63,7 +62,6 @@ public class GPanel extends Canvas {
         this.setOnKeyPressed(key -> { 
             switch (key.getCode()) {
                 case LEFT:
-                    leftPressed = true;
                     if (Player.mapShift > 0 && Entity.playerID == 0) {
                         Player.mapShift -= scrollSpeed;
                         Player.PLAYER1_X += scrollSpeed;
@@ -75,7 +73,6 @@ public class GPanel extends Canvas {
 
                 case RIGHT:
                     if ((Player.mapShift < (maxWorldCol * spriteSize) - panelWidth) && Entity.playerID == 0) {
-                        rightPressed = true;
                         Player.mapShift += scrollSpeed;
                         Player.PLAYER1_X -= scrollSpeed;
                         Player.PLAYER2_X -= scrollSpeed;
@@ -113,8 +110,6 @@ public class GPanel extends Canvas {
                     break;
 
                 default:
-                    leftPressed = null;
-                    rightPressed = null;
                     break;
             }
         });
@@ -171,11 +166,9 @@ public class GPanel extends Canvas {
         player.updateP1();
         player.updateP2();
         player.detectEvent();
-
     }
 
     public void render(GraphicsContext render) { // MENGGAMBAR BERBAGAI INFORMASI DI LAYAR
-
         // MAP
         map.draw(render);
 

@@ -20,26 +20,22 @@ public class Objects {
     public static String message = "(No Event)";
     public static Boolean showSpaceBar = true;
 
+    private Font fontStatus, fontWinner;
     private Image dice[] = new Image[6];
     private Image tree[] = new Image[3];
     private Image rocks[] = new Image[2];
     private Image misc[] = new Image[2];
     private Image btn[] = new Image[2];
     private Image skill[] = new Image[3];
-    private Image slot, spacebar;
-
+    private Image slot, spacebar, grass;
+    private Image diceView = null;
     private int spriteCounter = 0;
     private int spriteNum = 1;
     private int duration = 0;
 
-    private Image diceView = null;
-    private Boolean render = true;
-    private Boolean randomized = false;
-
-    private int randomPosX_tree[] = new int[30];
-    private int random1;
-
-    private Font fontStatus, fontWinner;
+    private int tree1PosX[] = { 6, 7, 9, 11, 14, 19, 20, 25, 30, 31, 37, 42, 48 };
+    private int tree2PosX[] = { 5, 8, 13, 18, 22, 23, 29, 32, 38, 39, 45 };
+    private int tree3PosX[] = { 4, 10, 15, 17, 21, 26, 27, 34, 35, 36, 41, 44 };
 
     public Objects() {
 
@@ -57,10 +53,21 @@ public class Objects {
         for (int i = 0; i < skill.length; i++) {
             skill[i] = new Image(getClass().getResourceAsStream("objects/skill" + (i + 1) + ".png"));
         }
+
+        grass = new Image(getClass().getResourceAsStream("objects/grass.png"));
         slot = new Image(getClass().getResourceAsStream("objects/" + "slot" + ".png"));
         fontStatus = Font.loadFont(getClass().getResourceAsStream("fonts/sisfo.ttf"), 18);
         fontWinner = Font.loadFont(getClass().getResourceAsStream("fonts/sisfo.ttf"), 35);
         spacebar = new Image(getClass().getResourceAsStream("objects/spacebar.png"));
+
+        for (int i = 0; i < tree1PosX.length; i++)
+            tree1PosX[i] *= 48;
+
+        for (int i = 0; i < tree2PosX.length; i++)
+            tree2PosX[i] *= 48;
+
+        for (int i = 0; i < tree3PosX.length; i++)
+            tree3PosX[i] *= 48;
 
     }
 
@@ -124,12 +131,12 @@ public class Objects {
         String turnInfo = (Entity.playerID != 2) ? "Your Turn!\nPress [SPACE] to Roll the Dice."
                 : "Computer's Turn.\nPlease be Patient...";
 
-        var color = (Entity.playerID !=2) ? Color.DARKGREEN : Color.DARKRED;
+        var color = (Entity.playerID != 2) ? Color.DARKGREEN : Color.DARKRED;
 
         if (!Player.winner && Entity.playerID != 2 && showSpaceBar) {
             g.drawImage(spacebar, 7 * 48 + 5, 9 * 48 - 10);
             g.setFill(Color.BLACK);
-            g.fillText("SPACE", 7*48 + 32, 9*48 + 20);
+            g.fillText("SPACE", 7 * 48 + 32, 9 * 48 + 20);
         }
         if (!Player.winner) {
             g.setFill(Color.BLACK);
@@ -168,7 +175,7 @@ public class Objects {
         }
     }
 
-    public void renderItems(GraphicsContext g) { // Merender tile berwarna untuk perangkap dan powerup
+    public void renderItems(GraphicsContext g) { // MENGGAMBAR TILE YANG BERWARNA
         for (int i = 0; i < Entity.traps.length; i++) {
             g.setFill(Color.rgb(128, 0, 0, 0.5));
             g.fillRect(Entity.traps[i] * 48 + objectsX + 1, 576 - 2 * 48 + 1, 46, 46);
@@ -178,11 +185,15 @@ public class Objects {
             g.setFill(Color.rgb(0, 0, 255, 0.5));
             g.fillRect(Entity.powerUps[i] * 48 + objectsX + 1, 576 - 2 * 48 + 1, 46, 46);
         }
+        g.setFill(Color.rgb(128, 128, 128, 0.5));
+        g.fillRect( objectsX + 1, 576 - 2*48 + 1, 46, 46);
+        g.fillRect(50*48 + objectsX + 1, 576 - 2*48 + 1, 46, 46);
 
     }
 
     public void renderPlayerUI(GraphicsContext g) {
-
+        
+        
         g.drawImage(slot, 20, 20, 240, 68);
 
         for (int i = 0, t = 48; i < skill.length; i++, t += 68) {
@@ -207,50 +218,19 @@ public class Objects {
 
     public void renderMapObject(GraphicsContext g) { // Merender object seperti pohon dkk
         g.drawImage(misc[1], (2 * 48) + objectsX, 576 - 5 * 48);
+        g.drawImage(misc[1], (49 * 48) + objectsX, 576 - 5 * 48);
 
-        if (render) {
-            for (int i = 0; i < randomPosX_tree.length; i++) {
-                randomPosX_tree[i] = ((int) (Math.random() * 45 + 5)) * 48;
-            }
+        for (int i = 0; i < tree1PosX.length; i++)
+            g.drawImage(tree[0], tree1PosX[i] + objectsX, 576 - 5 * 48);
 
-            render = false;
+        for (int i = 0; i < tree2PosX.length; i++)
+            g.drawImage(tree[1], tree2PosX[i] + objectsX, 576 - 5 * 48);
+
+        for (int i = 0; i < tree3PosX.length; i++)
+            g.drawImage(tree[2], tree3PosX[i] + objectsX, 576 - 5 * 48);
+
+        for (int i = 0; i < 150; i++) {
+            g.drawImage(grass, i * 20 + objectsX, 576 - (4 * 48 + 9));
         }
-
-        if (!randomized) {
-            random1 = (int) (Math.random() * 3 + 1);
-            randomized = true;
-
-        }
-
-        for (int i = 0; i < randomPosX_tree.length - 20; i++) {
-            if (random1 == 1) {
-                g.drawImage(tree[0], randomPosX_tree[i] + objectsX, 576 - 5 * 48);
-            } else if (random1 == 2) {
-                g.drawImage(tree[1], randomPosX_tree[i] + objectsX, 576 - 5 * 48);
-            } else if (random1 == 3) {
-                g.drawImage(tree[2], randomPosX_tree[i] + objectsX, 576 - 5 * 48);
-            }
-        }
-
-        for (int i = 10; i < randomPosX_tree.length - 10; i++) {
-            if (random1 == 1) {
-                g.drawImage(tree[1], randomPosX_tree[i] + objectsX, 576 - 5 * 48);
-            } else if (random1 == 2) {
-                g.drawImage(tree[2], randomPosX_tree[i] + objectsX, 576 - 5 * 48);
-            } else if (random1 == 3) {
-                g.drawImage(tree[0], randomPosX_tree[i] + objectsX, 576 - 5 * 48);
-            }
-        }
-
-        for (int i = 20; i < randomPosX_tree.length; i++) {
-            if (random1 == 1) {
-                g.drawImage(tree[2], randomPosX_tree[i] + objectsX, 576 - 5 * 48);
-            } else if (random1 == 2) {
-                g.drawImage(tree[0], randomPosX_tree[i] + objectsX, 576 - 5 * 48);
-            } else if (random1 == 3) {
-                g.drawImage(tree[1], randomPosX_tree[i] + objectsX, 576 - 5 * 48);
-            }
-        }
-
     }
 }
