@@ -14,7 +14,6 @@ public class GameEvent {
 
     public void diceRoll()  {
         moves = (int) (Math.random() * 6 + 1);
-        System.out.println("Langkah : " + moves);
         Player.moves++;
 
     }

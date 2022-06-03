@@ -33,9 +33,12 @@ public class Objects {
     private int spriteNum = 1;
     private int duration = 0;
 
-    private int tree1PosX[] = { 6, 7, 9, 11, 14, 19, 20, 25, 30, 31, 37, 42, 48 };
+    private int tree1PosX[] = { 6, 7, 9, 11, 14, 19, 20, 30, 31, 37, 42, 48 };
     private int tree2PosX[] = { 5, 8, 13, 18, 22, 23, 29, 32, 38, 39, 45 };
-    private int tree3PosX[] = { 4, 10, 15, 17, 21, 26, 27, 34, 35, 36, 41, 44 };
+    private int tree3PosX[] = { 4, 10, 15, 17, 21, 26, 34, 35, 36, 41, 44 };
+
+    private int rocks1PosX[] = { 3, 11, 12, 23, 29, 32, 37 };
+    private int rocks2PosX[] = { 4, 8, 15, 26, 35, 43, 46 };
 
     public Objects() {
 
@@ -69,6 +72,11 @@ public class Objects {
         for (int i = 0; i < tree3PosX.length; i++)
             tree3PosX[i] *= 48;
 
+        for (int i = 0; i < rocks1PosX.length; i++)
+            rocks1PosX[i] *= 48;
+
+        for (int i = 0; i < rocks2PosX.length; i++)
+            rocks2PosX[i] *= 48;
     }
 
     public void resetDice() {
@@ -162,17 +170,15 @@ public class Objects {
 
         } else {
             g.setFill(Color.WHITE);
-            for (int i = 0; i <= 50; i++) {
+            for (int i = 0; i <= 50; i++)
                 g.fillText("" + i, (i * 48 + 20) + objectsX, 576 - 1 * 48 - 20);
-            }
         }
 
-        if (Player.mapShift > 0 && Entity.playerID == 0) {
+        if (Player.mapShift > 0 && Entity.playerID == 0)
             g.drawImage(btn[0], 6 * 48, 5 * 48);
-        }
-        if ((Player.mapShift < (50 * 48) - (16 * 48)) && Entity.playerID == 0) {
+
+        if ((Player.mapShift < (50 * 48) - (16 * 48)) && Entity.playerID == 0)
             g.drawImage(btn[1], 9 * 48, 5 * 48);
-        }
     }
 
     public void renderItems(GraphicsContext g) { // MENGGAMBAR TILE YANG BERWARNA
@@ -186,14 +192,13 @@ public class Objects {
             g.fillRect(Entity.powerUps[i] * 48 + objectsX + 1, 576 - 2 * 48 + 1, 46, 46);
         }
         g.setFill(Color.rgb(128, 128, 128, 0.5));
-        g.fillRect( objectsX + 1, 576 - 2*48 + 1, 46, 46);
-        g.fillRect(50*48 + objectsX + 1, 576 - 2*48 + 1, 46, 46);
+        g.fillRect(objectsX + 1, 576 - 2 * 48 + 1, 46, 46);
+        g.fillRect(50 * 48 + objectsX + 1, 576 - 2 * 48 + 1, 46, 46);
 
     }
 
     public void renderPlayerUI(GraphicsContext g) {
-        
-        
+
         g.drawImage(slot, 20, 20, 240, 68);
 
         for (int i = 0, t = 48; i < skill.length; i++, t += 68) {
@@ -217,7 +222,9 @@ public class Objects {
     }
 
     public void renderMapObject(GraphicsContext g) { // Merender object seperti pohon dkk
+
         g.drawImage(misc[1], (2 * 48) + objectsX, 576 - 5 * 48);
+
         g.drawImage(misc[1], (49 * 48) + objectsX, 576 - 5 * 48);
 
         for (int i = 0; i < tree1PosX.length; i++)
@@ -229,8 +236,14 @@ public class Objects {
         for (int i = 0; i < tree3PosX.length; i++)
             g.drawImage(tree[2], tree3PosX[i] + objectsX, 576 - 5 * 48);
 
+        for (int i = 0; i < rocks1PosX.length; i++)
+            g.drawImage(rocks[0], rocks1PosX[i] + objectsX, 576 - 5 * 48);
+
+        for (int i = 0; i < rocks2PosX.length; i++)
+            g.drawImage(rocks[1], rocks2PosX[i] + objectsX, 576 - 5 * 48);
+
         for (int i = 0; i < 150; i++) {
-            g.drawImage(grass, i * 20 + objectsX, 576 - (4 * 48 + 9));
+            g.drawImage(grass, i * 20 + objectsX, 576 - (4 * 48 + 18), 20, 32);
         }
     }
 }

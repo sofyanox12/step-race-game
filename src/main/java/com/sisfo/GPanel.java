@@ -67,7 +67,6 @@ public class GPanel extends Canvas {
                         Player.PLAYER1_X += scrollSpeed;
                         Player.PLAYER2_X += scrollSpeed;
                         Objects.objectsX += scrollSpeed;
-                        System.out.println("CamX : " + Player.mapShift);
                     }
                     break;
 
@@ -77,7 +76,6 @@ public class GPanel extends Canvas {
                         Player.PLAYER1_X -= scrollSpeed;
                         Player.PLAYER2_X -= scrollSpeed;
                         Objects.objectsX -= scrollSpeed;
-                        System.out.println("CamX : " + Player.mapShift);
                     }
                     break;
 
@@ -145,7 +143,7 @@ public class GPanel extends Canvas {
                 }
 
                 if (timer >= 1000000000) { // Output ke terminal
-                    System.out.printf("\n[FPS:%s] waktu = %s d", drawCount, getSecond());
+                    System.out.printf("\n[FPS:%s] [Time:%ss]", drawCount, getSecond());
                     drawCount = 0;
                     timer = 0;
                 }

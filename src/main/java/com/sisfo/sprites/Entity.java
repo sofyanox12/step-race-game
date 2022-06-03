@@ -1,5 +1,7 @@
 package com.sisfo.sprites;
 
+import java.util.Random;
+
 import com.sisfo.GPanel;
 import javafx.scene.image.Image;
 
@@ -14,8 +16,8 @@ public class Entity extends Object {
     public static int PLAYER1_X, PLAYER1_Y, PLAYER2_X, PLAYER2_Y, PLAYER1_SCORE, PLAYER2_SCORE;
     public static int playerID = 2;
 
-    public static String powerSlot1[];
-    public static String powerSlot2[];
+    public static String powerSlot1[] = new String[3];
+    public static String powerSlot2[] = new String[3];
 
     public final Image[] walkP1 = new Image[6];
     public final Image[] idleP1 = new Image[4];
@@ -23,8 +25,8 @@ public class Entity extends Object {
     public final Image[] walkP2 = new Image[6];
     public final Image[] idleP2 = new Image[4];
 
-    public static int traps[] = new int[13];
-    public static int powerUps[] = new int[7];
+    public static int traps[] = new int[15];
+    public static int powerUps[] = new int[8];
 
     public int spriteCounterP1 = 0;
     public int spriteNumP1 = 1;
@@ -41,40 +43,53 @@ public class Entity extends Object {
     private String skill;
 
     public void generateItem() {
-
-        powerSlot1 = new String[3];
-        powerSlot2 = new String[3];
-
-        for (int i = 0, t = 0; i < traps.length; i++, t++) {
-
-            if (i < traps.length) {
-                traps[i] = (int) (Math.random() * 49) + 7; // TRAP DARI TILE 49 - 7
-            }
-
-            if (t < powerUps.length) {
-                powerUps[t] = (int) (Math.random() * 48) + 5; // POWER UPS DARI TILE 48 - 5
-
-                if (traps[i] == powerUps[t]) {
-                    powerUps[i]++;
-                    traps[i]--;
+        Random random = new Random();
+        
+        int index = 0;
+        while (index < traps.length) { // MENENTUKAN POSISI PERANGKAP
+            int num = random.nextInt((49 - 4) + 1) + 4;
+            if (isThere(num, traps)) {
+                if (isNearby(num, traps)) {
+                    traps[index] = num;
+                    index++;
                 }
             }
-
-            // MEKANISME UNTUK MENGURANGI TABRAKAN POWERUPS & TRAPS
-            if (i > 0 && Math.abs(traps[i - 1] - traps[i]) == 1) {
-                traps[i] += 8;
-            }
-
-            if (traps[i] < 7) {
-                traps[i] += 10;
-            }
-
         }
 
+        index = 0;
+        while (index < powerUps.length) { // MENENTUKAN POSISI POWERUP
+            int num = random.nextInt((49 - 4) + 1) + 4;
+            if (isThere(num, powerUps)) {
+                if (isThere(num, traps)) {
+                    if (isNearby(num, powerUps)) {
+                        powerUps[index] = num;
+                        index++;
+                    }
+                }
+            }
+        }
+    }
+
+    // METHOD UNTUK MEMILAH KEBERADAAN TILE YANG SAMA
+    public Boolean isThere(int num, int[] array) {
+        for (int i = 0; i < array.length; i++)
+            if (num == array[i])
+                return false;
+
+        return true;
+    }
+
+    // METHOD UNTUK MEMILAH SELISIH TILE YANG BERJARAK 1 & 3 UBIN
+    public Boolean isNearby(int num, int[] array) {
+        for (int i = 0; i < array.length; i++)
+            if (num - array[i] == 1 || num - array[i] == -1 || num - array[i] == 3 || num - array[i] == -3)
+                return false;
+
+        return true;
     }
 
     public void setPlayerStartingPos(GPanel window) {
-        
+
         // SET POSISI AWAL PLAYER 1
         PLAYER1_X = 12;
         PLAYER1_Y = window.panelHeigth - (5 * window.tileSize);
@@ -171,14 +186,14 @@ public class Entity extends Object {
                         idleP1[t] = new Image(getClass().getResourceAsStream("old_idle" + t + ".png"));
                 }
 
-            } else if (charID == 2) { // Character : Girl
+            } else if (charID == 2) {
                 for (int i = 0, t = 0; i < walkP1.length; i++, t++) {
                     walkP1[i] = new Image(getClass().getResourceAsStream("girl_walk" + i + ".png"));
                     if (t < idleP1.length)
                         idleP1[t] = new Image(getClass().getResourceAsStream("girl_idle" + t + ".png"));
                 }
 
-            } else if (charID == 3) { // Character : Man
+            } else if (charID == 3) {
                 for (int i = 0, t = 0; i < walkP1.length; i++, t++) {
                     walkP1[i] = new Image(getClass().getResourceAsStream("man_walk" + i + ".png"));
                     if (t < idleP1.length)
@@ -186,7 +201,7 @@ public class Entity extends Object {
                 }
 
             } else if (charID == 4) {
-                for (int i = 0, t = 0; i < walkP1.length; i++, t++) { // Character : punk
+                for (int i = 0, t = 0; i < walkP1.length; i++, t++) {
                     walkP1[i] = new Image(getClass().getResourceAsStream("punk_walk" + i + ".png"));
                     if (t < idleP1.length)
                         idleP1[t] = new Image(getClass().getResourceAsStream("punk_idle" + t + ".png"));
@@ -195,7 +210,7 @@ public class Entity extends Object {
             }
 
             // SET UNTUK PLAYER 2
-        } else if (playerID == 2) { // Karakter untuk Player 2
+        } else if (playerID == 2) {
 
             if (charID == 1) {
                 for (int i = 0, t = 0; i < walkP2.length; i++, t++) {
@@ -225,10 +240,7 @@ public class Entity extends Object {
                         idleP2[t] = new Image(getClass().getResourceAsStream("punk_idle" + t + ".png"));
                 }
 
-            }  
-        } else {
-            System.out.println("Invalid Player ID!");
+            }
         }
-
     }
 }

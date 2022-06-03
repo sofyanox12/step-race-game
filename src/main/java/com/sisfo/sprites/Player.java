@@ -233,21 +233,19 @@ public class Player extends Entity {
 
     // KONFIGURASI KEYBOARD
     public void useQ() {
-        if (idlingP1 && idlingP2 && powerSlot1[0] != null) {
+        if (idlingP1 && idlingP2 && powerSlot1[0] != null)
             useSkill(0);
-        }
+
     }
 
     public void useW() {
-        if (idlingP1 && idlingP2 && powerSlot1[1] != null) {
+        if (idlingP1 && idlingP2 && powerSlot1[1] != null) 
             useSkill(1);
-        }
     }
 
     public void useE() {
-        if (idlingP1 && idlingP2 && powerSlot1[2] != null) {
+        if (idlingP1 && idlingP2 && powerSlot1[2] != null)
             useSkill(2);
-        }
     }
 
     // MEKANISME PENGUNAAN SKILL PLAYER
@@ -258,23 +256,21 @@ public class Player extends Entity {
             PLAYER1_X += 3 * 48;
             PLAYER1_SCORE += 3;
             Objects.message = "PLAYER 1 USED BLINK!";
-            powerSlot1[i] = null;
 
         } else if (powerSlot1[i] == "HOOK") {
             if (PLAYER1_SCORE < PLAYER2_SCORE) {
                 PLAYER2_X = PLAYER1_X;
                 PLAYER2_SCORE = PLAYER1_SCORE;
                 Objects.message = "PLAYER 1 USED HOOK ON PLAYER 2!";
-                powerSlot1[i] = null;
-            }
+            } else
+                Objects.message = "PLAYER 1 FAILED TO USE HOOK!";
 
         } else if (powerSlot1[i] == "INVINCIBLE") {
-
             P1_IS_INVINCIBLE = true;
             Objects.message = "PLAYER 1 USED INVINCIBLE!";
-            powerSlot1[i] = null;
-        }
 
+        }
+        powerSlot1[i] = null;
     }
 
     // MEKANISME PENGUNAAN SKILL KOMPUTER
@@ -284,21 +280,19 @@ public class Player extends Entity {
             PLAYER2_X += 3 * 48;
             PLAYER2_SCORE += 3;
             Objects.message = "PLAYER 2 USED BLINK!";
-            powerSlot2[i] = null;
 
         } else if (powerSlot2[i] == "HOOK") {
             if (PLAYER2_SCORE < PLAYER1_SCORE) {
                 PLAYER1_X = PLAYER2_X;
                 PLAYER1_SCORE = PLAYER2_SCORE;
                 Objects.message = "PLAYER 2 USED HOOK ON PLAYER 1!";
-                powerSlot2[i] = null;
-            }
+            } else
+                Objects.message = "PLAYER 2 FAILED TO USE HOOK!";
 
         } else if (powerSlot2[i] == "INVINCIBLE") {
             P2_IS_INVINCIBLE = true;
             Objects.message = "PLAYER 2 USED INVINCIBLE!";
-            powerSlot2[i] = null;
         }
-
+        powerSlot2[i] = null;
     }
 }
