@@ -85,7 +85,7 @@ public class Objects {
         duration = 0;
     }
 
-    public void renderDice(GraphicsContext g, Player p) {
+    public void renderDice(GraphicsContext g, Player p) { // ME-RENDER DADU & ANIMASINYA
 
         if (p.diceRolling) {
             showSpaceBar = false;
@@ -157,7 +157,7 @@ public class Objects {
         g.drawImage(diceView, 7 * 48 + 24, 5 * 48);
     }
 
-    public void renderGUI(GraphicsContext g) {
+    public void renderGUI(GraphicsContext g) { // MERENDER GUI
 
         g.setFill(Color.BLACK);
         g.fillText("P1: " + String.valueOf(Entity.PLAYER1_SCORE), Entity.PLAYER1_X, Entity.PLAYER1_Y - 4);
@@ -197,7 +197,7 @@ public class Objects {
 
     }
 
-    public void renderPlayerUI(GraphicsContext g) {
+    public void renderPlayerUI(GraphicsContext g) { // ME-RENDER TAMPILAN UI PLAYER
 
         g.drawImage(slot, 20, 20, 240, 68);
 
@@ -221,7 +221,7 @@ public class Objects {
 
     }
 
-    public void renderMapObject(GraphicsContext g) { // Merender object seperti pohon dkk
+    public void renderMapObject(GraphicsContext g) { // ME-RENDER OBJEK" DI MAP
 
         g.drawImage(misc[1], (2 * 48) + objectsX, 576 - 5 * 48);
 
@@ -245,5 +245,9 @@ public class Objects {
         for (int i = 0; i < 150; i++) {
             g.drawImage(grass, i * 20 + objectsX, 576 - (4 * 48 + 18), 20, 32);
         }
+    }
+
+    public void renderAnimation(GraphicsContext g) {
+
     }
 }

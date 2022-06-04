@@ -23,9 +23,6 @@ public class Player extends Entity {
 
     public final int WIN_SCORE = 50;
 
-    private final GameEvent event;
-    private final GPanel window;
-
     public static Boolean idlingP1 = true;
     public static Boolean idlingP2 = true;
     public static Boolean winner = false;
@@ -34,6 +31,9 @@ public class Player extends Entity {
     public Boolean diceRolling = false;
 
     public int move, maxMove;
+
+    private final GameEvent event;
+    private final GPanel window;
 
     public Player(GPanel window, GameEvent event) {
 
@@ -160,9 +160,12 @@ public class Player extends Entity {
             if (event.moves == 6) {
                 playerID = (playerID == 1) ? 1 : 2;
                 gotPower1 = true;
+                gotPower2 = true;
             } else {
                 playerID = (playerID == 1) ? 2 : 1;
                 computerPlay = (computerPlay) ? false : true;
+                gotPower1 = (playerID == 1) ? true : false;
+                gotPower2 = (playerID == 2) ? true : false;
             }
 
         } else {
@@ -170,35 +173,38 @@ public class Player extends Entity {
             maxMove = 0;
         }
 
-        gotPower1 = (playerID == 1) ? true : false;
-        gotPower2 = (playerID == 2) ? true : false;
-
         idlingP1 = true;
         idlingP2 = true;
         playerID = 0;
+        detectEvent();
 
         if (computerPlay && !winner) {
             playerID = 2;
             idlingP2 = false;
+            if (powerSlot2 != null && gotPower2) {
+                computerUseSkill((int) (Math.random() * 3));
+                gotPower2 = false;
+            }
             diceRoll();
         }
     }
 
-    private int count = 0;
+    private int countP1 = 0;
+    private int countP2 = 0;
 
     // MENGGOYANG DADU DAN MENGKONFIGURASI HAL YANG DIPERLUKAN
     public void diceRoll() {
-        count++;
-
-        if (P1_IS_INVINCIBLE && count > 1) {
+        if (P1_IS_INVINCIBLE && countP1 > 1) {
             P1_IS_INVINCIBLE = false;
-            count = 0;
-        }
+            countP1 = 0;
+        } else
+            countP1++;
 
-        if (P2_IS_INVINCIBLE && count > 1) {
+        if (P2_IS_INVINCIBLE && countP2 > 1) {
             P2_IS_INVINCIBLE = false;
-            count = 0;
-        }
+            countP2 = 0;
+        } else
+            countP2++;
 
         diceRolling = true;
         event.diceRoll();
@@ -225,10 +231,7 @@ public class Player extends Entity {
             playerID = 0;
             stopPlayer();
         }
-        if (idlingP1 && idlingP2 && powerSlot2 != null && !gotPower2) {
-            computerUseSkill((int) (Math.random() * 3));
-            gotPower2 = false;
-        }
+
     }
 
     // KONFIGURASI KEYBOARD
@@ -239,7 +242,7 @@ public class Player extends Entity {
     }
 
     public void useW() {
-        if (idlingP1 && idlingP2 && powerSlot1[1] != null) 
+        if (idlingP1 && idlingP2 && powerSlot1[1] != null)
             useSkill(1);
     }
 

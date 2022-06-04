@@ -3,6 +3,7 @@ package com.sisfo.sprites;
 import java.util.Random;
 
 import com.sisfo.GPanel;
+
 import javafx.scene.image.Image;
 
 /*
@@ -28,14 +29,16 @@ public class Entity extends Object {
     public static int traps[] = new int[15];
     public static int powerUps[] = new int[8];
 
+    public static Boolean P1_IS_INVINCIBLE = false;
+    public static Boolean P2_IS_INVINCIBLE = false;
+
     public int spriteCounterP1 = 0;
     public int spriteNumP1 = 1;
 
     public int spriteCounterP2 = spriteCounterP1;
     public int spriteNumP2 = spriteNumP1;
 
-    public Boolean P1_IS_INVINCIBLE = false;
-    public Boolean P2_IS_INVINCIBLE = false;
+    
     public Boolean gotPower1 = false;
     public Boolean gotPower2 = false;
 
@@ -107,12 +110,10 @@ public class Entity extends Object {
             for (int i = 0; i < traps.length; i++) {
                 if (traps[i] == PLAYER1_SCORE && !P1_IS_INVINCIBLE) {
                     PLAYER1_X -= 3 * 48;
-                    PLAYER1_SCORE -= 3;
                 }
 
                 else if (PLAYER2_SCORE == traps[i] && !P2_IS_INVINCIBLE) {
                     PLAYER2_X -= 3 * 48;
-                    PLAYER2_SCORE -= 3;
                 }
             }
         }

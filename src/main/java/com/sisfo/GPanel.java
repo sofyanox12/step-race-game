@@ -33,6 +33,12 @@ public class GPanel extends Canvas {
     public final int FPS = 60;
     public Thread gameRunning;
 
+    // PENGATURAN MAP
+    public final int maxWorldCol = 51;
+    public final int maxWorldRow = 12;
+    public final int worldWidth = spriteSize * maxPanelCol;
+    public final int worldHeigth = spriteSize * maxPanelRow;
+
     // PANGGIL KELAS LAIN KE LAYAR
     private final long FIRST_SECOND = System.currentTimeMillis();
     private TileCollection map = new TileCollection(this);
@@ -45,12 +51,6 @@ public class GPanel extends Canvas {
     private int scrollSpeed = 12;
     private Boolean running = true;
 
-    // PENGATURAN MAP
-    public final int maxWorldCol = 51;
-    public final int maxWorldRow = 12;
-    public final int worldWidth = spriteSize * maxPanelCol;
-    public final int worldHeigth = spriteSize * maxPanelRow;
-
     // PANEL CONSTRUCTOR
     public GPanel() {
 
@@ -59,7 +59,7 @@ public class GPanel extends Canvas {
         this.setFocusTraversable(true);
 
         // KEYBOARD IN-GAME NYA
-        this.setOnKeyPressed(key -> { 
+        this.setOnKeyPressed(key -> {
             switch (key.getCode()) {
                 case LEFT:
                     if (Player.mapShift > 0 && Entity.playerID == 0) {
@@ -78,17 +78,33 @@ public class GPanel extends Canvas {
                         Objects.objectsX -= scrollSpeed;
                     }
                     break;
-
+                case A:
+                    if (Player.mapShift > 0 && Entity.playerID == 0) {
+                        Player.mapShift -= scrollSpeed;
+                        Player.PLAYER1_X += scrollSpeed;
+                        Player.PLAYER2_X += scrollSpeed;
+                        Objects.objectsX += scrollSpeed;
+                    }
+                    break;
+                case D:
+                    if ((Player.mapShift < (maxWorldCol * spriteSize) - panelWidth) && Entity.playerID == 0) {
+                        Player.mapShift += scrollSpeed;
+                        Player.PLAYER1_X -= scrollSpeed;
+                        Player.PLAYER2_X -= scrollSpeed;
+                        Objects.objectsX -= scrollSpeed;
+                    }
+                    break;
                 case SPACE:
                     if ((Player.idlingP1 && Player.idlingP2) && !player.computerPlay && !Player.winner) {
                         Entity.playerID = 1;
                         player.diceRoll();
                     }
                     break;
-                    
+
                 case ESCAPE:
                     try {
                         running = false;
+                        gameEvent.backToMainMenu();
                         ctrl.toMainMenu();
                     } catch (Exception e) {
                         e.getStackTrace();
@@ -113,7 +129,7 @@ public class GPanel extends Canvas {
         });
 
         // PENGGUNAAN THREAD UNTUK ENGINE DARI GAME
-        Thread thread = new Thread(() -> { 
+        Thread thread = new Thread(() -> {
 
             double delta = 0;
             double timer = 0;
@@ -123,9 +139,9 @@ public class GPanel extends Canvas {
             long currentTime;
 
             // MENGUPDATE INFORMASI SESUAI THREAD YANG BERJALAN
-            Runnable updater = () -> { 
+            Runnable updater = () -> {
                 update();
-                render(graphic);
+                thisWindow(graphic);
             };
 
             // MEMBATASI THREAD DENGAN MEKANISME FRAME PER SECOND
@@ -160,29 +176,37 @@ public class GPanel extends Canvas {
     }
 
     public void update() { // UPDATE INFORMASI DI BELAKANG LAYAR
+        
+        
+
         player.checkWinner();
         player.updateP1();
         player.updateP2();
-        player.detectEvent();
+        gameEvent.detectTrap();
+        //player.detectEvent();
+
     }
 
-    public void render(GraphicsContext render) { // MENGGAMBAR BERBAGAI INFORMASI DI LAYAR
+    public void thisWindow(GraphicsContext thisWindow) { // MENGGAMBAR BERBAGAI INFORMASI DI LAYAR
         // MAP
-        map.draw(render);
+        map.draw(thisWindow);
 
         // OBJECT
-        object.renderMapObject(render);
-        object.renderDice(render, player);
-        object.renderItems(render);
-        object.renderGUI(render);
-        object.renderPlayerUI(render);
+        object.renderMapObject(thisWindow);
+        object.renderDice(thisWindow, player);
+        object.renderItems(thisWindow);
+        object.renderGUI(thisWindow);
+        object.renderPlayerUI(thisWindow);
 
         // PLAYER
-        player.drawP1(render);
-        player.drawP2(render);
+        player.drawP1(thisWindow);
+        player.drawP2(thisWindow);
+
+        // EVENT
+        gameEvent.drawAnimation(thisWindow);
 
         // CACHE
-        render.restore();
+        thisWindow.restore();
 
     }
 
