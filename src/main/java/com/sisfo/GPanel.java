@@ -176,14 +176,11 @@ public class GPanel extends Canvas {
     }
 
     public void update() { // UPDATE INFORMASI DI BELAKANG LAYAR
-        
-        
 
         player.checkWinner();
         player.updateP1();
         player.updateP2();
         gameEvent.detectTrap();
-        //player.detectEvent();
 
     }
 
@@ -204,6 +201,7 @@ public class GPanel extends Canvas {
 
         // EVENT
         gameEvent.drawAnimation(thisWindow);
+        object.renderFence(thisWindow);
 
         // CACHE
         thisWindow.restore();

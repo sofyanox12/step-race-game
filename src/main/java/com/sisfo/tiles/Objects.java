@@ -39,6 +39,7 @@ public class Objects {
 
     private int rocks1PosX[] = { 3, 11, 12, 23, 29, 32, 37 };
     private int rocks2PosX[] = { 4, 8, 15, 26, 35, 43, 46 };
+    private int fencePosX[] = { 3, 7, 8, 18, 24, 25, 26, 27, 40, 46, 47, 50 };
 
     public Objects() {
 
@@ -77,6 +78,9 @@ public class Objects {
 
         for (int i = 0; i < rocks2PosX.length; i++)
             rocks2PosX[i] *= 48;
+
+        for (int i = 0; i < fencePosX.length; i++)
+            fencePosX[i] *= 48;
     }
 
     public void resetDice() {
@@ -247,7 +251,8 @@ public class Objects {
         }
     }
 
-    public void renderAnimation(GraphicsContext g) {
-
+    public void renderFence(GraphicsContext g) {
+        for (int i = 0; i < fencePosX.length; i++)
+            g.drawImage(misc[0], fencePosX[i] + objectsX, 576 - (5 * 48));
     }
 }

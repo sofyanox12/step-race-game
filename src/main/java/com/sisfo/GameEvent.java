@@ -1,7 +1,6 @@
 package com.sisfo;
 
 import java.util.Random;
-import java.util.Scanner;
 
 import com.sisfo.sprites.Entity;
 import com.sisfo.sprites.Player;
@@ -11,8 +10,8 @@ import javafx.scene.image.Image;
 
 /*
     GameEvent adalah Kelas Kecil yang berguna
-    untuk memberikan layanan untuk mendapatkan
-    angka dadu secara acak
+    untuk memengaruh angka dadu dan animasi
+    saat terjadi beberapa hal.
 */
 
 public class GameEvent {
@@ -63,10 +62,8 @@ public class GameEvent {
         }
     }
 
-    
-
     public void detectTrap() {
-        if (moves != 6) {
+        if (this.moves < 6) {
             for (int i = 0; i < Entity.traps.length; i++) {
                 if (Player.PLAYER1_SCORE == Entity.traps[i] && !Player.P1_IS_INVINCIBLE) {
                     Player.PLAYER1_SCORE -= 3;
@@ -87,15 +84,9 @@ public class GameEvent {
 
             if (wasTrappedP1 || wasTrappedP2) {
                 if (wasTrappedP1) {
-                    
                     posX = Player.PLAYER1_X - 12;
-                    
-
                 } else if (wasTrappedP2) {
-                    
                     posX = Player.PLAYER2_X - 12;
-                    
-
                 }
 
                 if (animationCounter > 2) {

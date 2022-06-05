@@ -166,6 +166,7 @@ public class Player extends Entity {
                 computerPlay = (computerPlay) ? false : true;
                 gotPower1 = (playerID == 1) ? true : false;
                 gotPower2 = (playerID == 2) ? true : false;
+                detectEvent();
             }
 
         } else {
@@ -176,7 +177,7 @@ public class Player extends Entity {
         idlingP1 = true;
         idlingP2 = true;
         playerID = 0;
-        detectEvent();
+        
 
         if (computerPlay && !winner) {
             playerID = 2;
@@ -230,6 +231,10 @@ public class Player extends Entity {
             winner = true;
             playerID = 0;
             stopPlayer();
+            for (int i = 0; i< powerSlot1.length; i ++) {
+                powerSlot1[i] = null;
+                powerSlot2[i] = null;
+            }
         }
 
     }
