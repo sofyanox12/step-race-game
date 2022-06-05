@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import com.sisfo.sprites.Entity;
 import com.sisfo.sprites.Player;
+import com.sisfo.tiles.Objects;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -51,6 +52,12 @@ public class GameEvent {
         Player.PLAYER2_SCORE = 0;
         Player.mapShift = 0;
         Player.moves = 0;
+        Objects.message = "(No Event)";
+
+        for (int i = 0; i < 3; i++) {
+            Player.powerSlot1[i] = null;
+            Player.powerSlot2[i] = null;
+        }
     }
 
     public void drawAnimation(GraphicsContext g) {
