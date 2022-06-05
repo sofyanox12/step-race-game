@@ -260,10 +260,10 @@ public class Player extends Entity {
     public void useSkill(int i) {
 
         if (powerSlot1[i] == "BLINK") {
-
             PLAYER1_X += 3 * 48;
             PLAYER1_SCORE += 3;
             Objects.message = "PLAYER 1 USED BLINK!";
+            detectEvent();
 
         } else if (powerSlot1[i] == "HOOK") {
             if (PLAYER1_SCORE < PLAYER2_SCORE) {
@@ -288,6 +288,7 @@ public class Player extends Entity {
             PLAYER2_X += 3 * 48;
             PLAYER2_SCORE += 3;
             Objects.message = "PLAYER 2 USED BLINK!";
+            detectEvent();
 
         } else if (powerSlot2[i] == "HOOK") {
             if (PLAYER2_SCORE < PLAYER1_SCORE) {
