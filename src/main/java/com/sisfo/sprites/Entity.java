@@ -3,6 +3,7 @@ package com.sisfo.sprites;
 import java.util.Random;
 
 import com.sisfo.GPanel;
+import com.sisfo.tiles.Objects;
 
 import javafx.scene.image.Image;
 
@@ -31,6 +32,7 @@ public class Entity extends Object {
 
     public static Boolean P1_IS_INVINCIBLE = false;
     public static Boolean P2_IS_INVINCIBLE = false;
+    public static Boolean isTrapped = false;
 
     public int spriteCounterP1 = 0;
     public int spriteNumP1 = 1;
@@ -38,16 +40,16 @@ public class Entity extends Object {
     public int spriteCounterP2 = spriteCounterP1;
     public int spriteNumP2 = spriteNumP1;
 
-    
     public Boolean gotPower1 = false;
     public Boolean gotPower2 = false;
 
     private String powers[] = { "BLINK", "HOOK", "INVINCIBLE" };
     private String skill;
+    private int counter = 0;
 
     public void generateItem() {
         Random random = new Random();
-        
+
         int index = 0;
         while (index < traps.length) { // MENENTUKAN POSISI PERANGKAP
             int num = random.nextInt((49 - 4) + 1) + 4;
@@ -104,20 +106,7 @@ public class Entity extends Object {
     }
 
     public void detectEvent() {
-
-        // MENDETEKSI JEBAKAN
-        if (Player.forward != 6) {
-            for (int i = 0; i < traps.length; i++) {
-                if (traps[i] == PLAYER1_SCORE && !P1_IS_INVINCIBLE) {
-                    PLAYER1_X -= 3 * 48;
-                }
-
-                else if (PLAYER2_SCORE == traps[i] && !P2_IS_INVINCIBLE) {
-                    PLAYER2_X -= 3 * 48;
-                }
-            }
-        }
-
+        
         // MENDETEKSI POWER UP
         skill = powers[(int) (Math.random() * 3)];
 
@@ -164,6 +153,14 @@ public class Entity extends Object {
                     }
                 }
             }
+        }
+
+        if (Objects.message != "(No Event)") {
+            counter++;
+            if (counter > 2) {
+                Objects.message = "(No Event)";
+                counter = 0;
+            }    
         }
 
     }

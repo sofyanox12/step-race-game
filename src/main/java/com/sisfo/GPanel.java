@@ -181,6 +181,7 @@ public class GPanel extends Canvas {
         player.updateP1();
         player.updateP2();
         gameEvent.detectTrap();
+        gameEvent.skillEffect();
 
     }
 
@@ -202,6 +203,10 @@ public class GPanel extends Canvas {
         // EVENT
         gameEvent.drawAnimation(thisWindow);
         object.renderFence(thisWindow);
+
+        if(Player.winner) 
+            gameEvent.gameFinished(thisWindow);
+        
 
         // CACHE
         thisWindow.restore();

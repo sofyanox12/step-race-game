@@ -17,7 +17,6 @@ public class Player extends Entity {
 
     public static int moves = 0;
     public static int mapShift = 0;
-    public static int forward;
 
     public static int player1, player2;
 
@@ -26,6 +25,9 @@ public class Player extends Entity {
     public static Boolean idlingP1 = true;
     public static Boolean idlingP2 = true;
     public static Boolean winner = false;
+
+    public static Boolean usingBlinkP1 = false;
+    public static Boolean usingBlinkP2 = false;
 
     public Boolean computerPlay = true;
     public Boolean diceRolling = false;
@@ -45,6 +47,8 @@ public class Player extends Entity {
         this.getPlayer(player2, 2);
         this.diceRoll();
         this.stopPlayer();
+        powerSlot1[0] = "BLINK";
+        powerSlot1[1] = "BLINK";
 
     }
 
@@ -148,12 +152,10 @@ public class Player extends Entity {
 
     // MENSTOP PLAYER DAN MENGKONFIGURASI HAL YANG DIPERLUKAN
     public void stopPlayer() {
-
         diceRolling = false;
         Objects.showSpaceBar = true;
 
         if (moves > 1) {
-            Player.forward = event.moves;
             PLAYER1_SCORE += (playerID == 1) ? event.moves : 0;
             PLAYER2_SCORE += (playerID == 2) ? event.moves : 0;
 
@@ -161,12 +163,15 @@ public class Player extends Entity {
                 playerID = (playerID == 1) ? 1 : 2;
                 gotPower1 = true;
                 gotPower2 = true;
-            } else {
+                isTrapped = true;
+
+            } else if (event.moves < 6) {
                 playerID = (playerID == 1) ? 2 : 1;
                 computerPlay = (computerPlay) ? false : true;
                 gotPower1 = (playerID == 1) ? true : false;
                 gotPower2 = (playerID == 2) ? true : false;
-                detectEvent();
+                isTrapped = false;
+                detectEvent();   
             }
 
         } else {
@@ -177,7 +182,6 @@ public class Player extends Entity {
         idlingP1 = true;
         idlingP2 = true;
         playerID = 0;
-        
 
         if (computerPlay && !winner) {
             playerID = 2;
@@ -195,17 +199,16 @@ public class Player extends Entity {
 
     // MENGGOYANG DADU DAN MENGKONFIGURASI HAL YANG DIPERLUKAN
     public void diceRoll() {
-        if (P1_IS_INVINCIBLE && countP1 > 1) {
+        
+        if (P1_IS_INVINCIBLE && countP1 > 2) {
             P1_IS_INVINCIBLE = false;
             countP1 = 0;
-        } else
-            countP1++;
+        } else countP1++;
 
-        if (P2_IS_INVINCIBLE && countP2 > 1) {
+        if (P2_IS_INVINCIBLE && countP2 > 2) {
             P2_IS_INVINCIBLE = false;
             countP2 = 0;
-        } else
-            countP2++;
+        } else countP2++;
 
         diceRolling = true;
         event.diceRoll();
@@ -243,7 +246,6 @@ public class Player extends Entity {
     public void useQ() {
         if (idlingP1 && idlingP2 && powerSlot1[0] != null)
             useSkill(0);
-
     }
 
     public void useW() {
@@ -260,10 +262,8 @@ public class Player extends Entity {
     public void useSkill(int i) {
 
         if (powerSlot1[i] == "BLINK") {
-            PLAYER1_X += 3 * 48;
-            PLAYER1_SCORE += 3;
+            usingBlinkP1 = true;
             Objects.message = "PLAYER 1 USED BLINK!";
-            detectEvent();
 
         } else if (powerSlot1[i] == "HOOK") {
             if (PLAYER1_SCORE < PLAYER2_SCORE) {
@@ -278,6 +278,7 @@ public class Player extends Entity {
             Objects.message = "PLAYER 1 USED INVINCIBLE!";
 
         }
+        isTrapped = false;
         powerSlot1[i] = null;
     }
 
@@ -285,10 +286,8 @@ public class Player extends Entity {
     public void computerUseSkill(int i) {
 
         if (powerSlot2[i] == "BLINK") {
-            PLAYER2_X += 3 * 48;
-            PLAYER2_SCORE += 3;
+            usingBlinkP2 = true;
             Objects.message = "PLAYER 2 USED BLINK!";
-            detectEvent();
 
         } else if (powerSlot2[i] == "HOOK") {
             if (PLAYER2_SCORE < PLAYER1_SCORE) {
@@ -302,6 +301,7 @@ public class Player extends Entity {
             P2_IS_INVINCIBLE = true;
             Objects.message = "PLAYER 2 USED INVINCIBLE!";
         }
+        isTrapped = false;
         powerSlot2[i] = null;
     }
 }
