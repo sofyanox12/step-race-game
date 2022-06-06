@@ -47,9 +47,6 @@ public class Player extends Entity {
         this.getPlayer(player2, 2);
         this.diceRoll();
         this.stopPlayer();
-        powerSlot1[0] = "BLINK";
-        powerSlot1[1] = "BLINK";
-
     }
 
     public void updateP1() {
