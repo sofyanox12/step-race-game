@@ -1,4 +1,4 @@
-# STEP RACE GAME
+# STEP RACE GAME (ALPHA-VERSION)
 ---
 
 This is a mini game that implements snakes and ladders mechanism where your player roll the dice to step forward until finish.
