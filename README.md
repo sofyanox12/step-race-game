@@ -1,9 +1,9 @@
 # STEP RACE GAME (ALPHA-VERSION)
 ---
 
-This is a mini game that implements snakes and ladders mechanism where your player roll the dice to step forward until finish.
+This is a mini-game that implements The Snakes and Ladders mechanism where your player rolls the dice to step forward until finished.
 
-The only difference is that the layout of this game using horizontal plane, traps and some powerups rather than using snakes and ladders for random events.
+The only difference is that the layout of this game uses horizontal planes, traps and some powerups rather than using snakes and ladders for random events.
 
 The reason why we use Java
 
@@ -13,9 +13,9 @@ The reason why we use Java
 
 Features :
 
-- Dice movement based-game.
-- 3 Kinds of Power UPs with each has their own ability.
-- Traps, Power ups, and Object tiles are randomized.
+- Dice movement-based game.
+- 3 Kinds of Power UPs with each having their ability.
+- Traps, Power-ups, and Object tiles are randomized.
 - Animated idling and movement on character.
 - Some bugs that we don't have time to fix it.
 
@@ -31,11 +31,11 @@ Enjoy!
 
 ## Misc
 
-This game implemented Java FX libraries which gives us a lot of UI nodes option to use.
+This game implemented Java FX libraries which gives us a lot of UI node options to use.
 Engine using thread with Java FX implemented methods to override the limitation of non-Java FX
-libraries usage (in this case : Thread objects).
+libraries usage (in this case: Thread objects).
 
-- Special Thanks to our adjunct professors (Mr. Max & Ms. Cecillia) to spare their limited time and sweat for giving this invaluable subject (Java Object Oriented-Programming).
+- Special Thanks to our adjunct professors (Mr Max & Ms Cecillia) for sparing their limited time and sweat to give this invaluable subject (Java Object Oriented-Programming).
 
 
    [Sofyan]: <https://www.instagram.com/sofyan.pujas/d>
